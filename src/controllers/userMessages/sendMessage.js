@@ -1,6 +1,4 @@
 import moment from 'moment';
-import contacts from '../../model/contacts';
-import messages from '../../model/messages';
 import { validateUserMessage } from '../../helpers/validations/userMessage';
 
 export const sendMessageToContact = (req, res, next) => {

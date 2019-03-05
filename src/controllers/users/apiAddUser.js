@@ -1,4 +1,3 @@
-import users from '../../model/users';
 import { validateUser } from '../../helpers/validations/user';
 
 export const apiAddUser = (req, res, next) => {

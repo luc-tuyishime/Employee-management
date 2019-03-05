@@ -1,5 +1,4 @@
 import moment from 'moment';
-import contacts from '../../model/contacts';
 import { validateContact } from '../../helpers/validations/contact';
 
 export const createContacts = (req, res, next) => {
@@ -11,7 +10,7 @@ export const createContacts = (req, res, next) => {
     });
   }
   const contact = {
-    id: parseInt(contacts.length + 1, 10),
+    id,
     createdOn: moment().format('LL'),
     email: req.body.email || '',
     firstname: req.body.firstname || '',

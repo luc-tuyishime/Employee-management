@@ -1,5 +1,3 @@
-import messages from '../../model/messages';
-
 export const GetUnreadMessages = (req, res, next) => {
   const select = messages.find(message => message.receiverId === parseInt(req.params.contactId, 10));
   const unread = messages.filter(message => message.status === 'sent');

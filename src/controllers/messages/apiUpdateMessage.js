@@ -1,5 +1,4 @@
 import moment from 'moment';
-import messages from '../../model/messages';
 import { validateMessage } from '../../helpers/validations/message';
 
 export const apiUpdateMessage = (req, res, next) => {

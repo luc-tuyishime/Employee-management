@@ -1,6 +1,3 @@
-import messages from '../../model/messages';
-// import contacts from '../../model/contacts';
-
 export const GetMessages = (req, res, next) => {
   const select = messages.filter(message => message.receiverId === parseInt(req.params.contactId, 10));
   if (select) {

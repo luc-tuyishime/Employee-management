@@ -1,5 +1,3 @@
-import users from '../../model/users';
-
 export const apiDeleteUser = (req, res, next) => {
   const userIndex = users.findIndex(user => user.id === parseInt(req.params.id, 10));
   if (userIndex > -1) {

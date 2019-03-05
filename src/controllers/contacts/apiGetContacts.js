@@ -1,6 +1,3 @@
-import contacts from '../../model/contacts';
-
-
 export const apiGetAllContacts = (req, res, next) => {
   res.send({
     status: 200,
