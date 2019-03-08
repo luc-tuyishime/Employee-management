@@ -14,7 +14,7 @@ export const tablesCreate = () => {
 
      const contacts = `CREATE TABLE IF NOT EXISTS
       contacts(
-        id SERIAL PRIMARY KEY,
+        id_contact SERIAL PRIMARY KEY,
         email VARCHAR(100) NOT NULL,
         firstName VARCHAR(50) NOT NULL,
         lastName VARCHAR(50) NOT NULL
@@ -22,7 +22,7 @@ export const tablesCreate = () => {
 
       const groups = `CREATE TABLE IF NOT EXISTS
       groups(
-        id SERIAL PRIMARY KEY,
+        id_group SERIAL PRIMARY KEY,
         name VARCHAR(50) NOT NULL,
         role VARCHAR(50) NOT NULL
       )`;
@@ -35,14 +35,14 @@ export const tablesCreate = () => {
          message VARCHAR (1000) NOT NULL,
          parentMessageId INT NOT NULL,
          status VARCHAR (50)  NOT NULL,
-         contacts INT NOT NULL REFERENCES contacts(id) ON DELETE CASCADE ON UPDATE CASCADE,
-         groups INT NOT NULL REFERENCES groups(id) ON DELETE CASCADE ON UPDATE CASCADE
+         id_contact INT NOT NULL,
+         id_group INT NOT NULL
         )`;
 
       const groupMember = `CREATE TABLE IF NOT EXISTS
       groupMember(
         id SERIAL PRIMARY KEY,
-        groups INT NOT NULL REFERENCES groups(id) ON DELETE CASCADE ON UPDATE CASCADE
+        id_group INT NOT NULL 
       )`;
 
   const newUserTable = `INSERT INTO
