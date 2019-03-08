@@ -1,7 +1,7 @@
 import pool from './connect';
 
 
-const tablesCreate = () => {
+export const tablesCreate = () => {
   const users = `CREATE TABLE IF NOT EXISTS
      users(
        id SERIAL PRIMARY KEY,
@@ -65,7 +65,7 @@ const tablesCreate = () => {
   pool.query(queries);
 };
 
-const tablesDelete = () => {
+export const tablesDelete = () => {
   const users = 'DROP TABLE IF EXISTS users CASCADE';
   const contacts = 'DROP TABLE IF EXISTS contacts CASCADE';
   const message = 'DROP TABLE IF EXISTS messages';
@@ -75,10 +75,5 @@ const tablesDelete = () => {
   pool.query(deleteQueries);
 };
 
-module.exports = {
-  tablesCreate,
-  tablesDelete,
-
-};
 
 require('make-runnable');
