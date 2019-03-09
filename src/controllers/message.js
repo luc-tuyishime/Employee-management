@@ -3,12 +3,6 @@ import uuidv4 from 'uuid/v4';
 import pool from '../models/connect';
 
 const Message = {
-  /**
-   * Create A Reflection
-   * @param {object} req
-   * @param {object} res
-   * @returns {object} reflection object
-   */
   async create(req, res) {
     const text = `INSERT INTO
       contacts(email, firstname, lastname, createdOn, modifiedOn)
@@ -29,12 +23,7 @@ const Message = {
       return res.status(400).send(error);
     }
   },
-  /**
-   * Get All Reflection
-   * @param {object} req
-   * @param {object} res
-   * @returns {object} reflections array
-   */
+
   async getAll(req, res) {
     const findAllQuery = 'SELECT * FROM contacts';
     try {
@@ -44,12 +33,7 @@ const Message = {
       return res.status(400).send(error);
     }
   },
-  /**
-   * Get A Reflection
-   * @param {object} req
-   * @param {object} res
-   * @returns {object} reflection object
-   */
+
   async getOne(req, res) {
     const text = 'SELECT * FROM contacts WHERE id = $1';
     try {
@@ -62,12 +46,7 @@ const Message = {
       return res.status(400).send(error)
     }
   },
-  /**
-   * Update A Reflection
-   * @param {object} req
-   * @param {object} res
-   * @returns {object} updated reflection
-   */
+
   async update(req, res) {
     const findOneQuery = 'SELECT * FROM contacts WHERE id=$1';
     const updateOneQuery =`UPDATE contacts
@@ -91,12 +70,7 @@ const Message = {
       return res.status(400).send(err);
     }
   },
-  /**
-   * Delete A Reflection
-   * @param {object} req
-   * @param {object} res
-   * @returns {void} return statuc code 204
-   */
+  
   async delete(req, res) {
     const deleteQuery = 'DELETE FROM contacts WHERE id=$1 returning *';
     try {
