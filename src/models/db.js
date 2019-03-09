@@ -5,10 +5,10 @@ export const tablesCreate = () => {
   const users = `CREATE TABLE IF NOT EXISTS
      users(
        id SERIAL PRIMARY KEY,
-       "email" VARCHAR(50) NOT NULL,
-       "firstName" VARCHAR(24) NOT NULL,
-       "lastName" VARCHAR(10) NOT NULL,
-        password TEXT NOT NULL,
+       email VARCHAR(50) UNIQUE NOT NULL,
+       firstname VARCHAR(24) NOT NULL,
+       lastname VARCHAR(10) NOT NULL,
+       password VARCHAR(80) NOT NULL,
        "isAdmin" BOOLEAN NOT NULL DEFAULT false
      )`;
 
@@ -50,8 +50,8 @@ export const tablesCreate = () => {
   const newUserTable = `INSERT INTO
   users(
     "email",
-    "firstName",
-    "lastName",
+    "firstname",
+    "lastname",
     "password",
     "isAdmin"
     ) VALUES (
