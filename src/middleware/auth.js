@@ -5,7 +5,7 @@ const Auth = {
   async verifyToken(req, res, next) {
     const token = req.headers['x-access-token'];
     if(!token) {
-      return res.status(400).send({ 'message': 'You need to register or login and provide a token for accessing the APIs' });
+      return res.status(400).send({ 'message': 'Access denied..' });
     }
     try {
       const decoded = await jwt.verify(token, process.env.SECRET);
