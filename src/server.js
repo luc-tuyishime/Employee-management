@@ -8,7 +8,7 @@ app.get('/', (req, res, next) => {
 });
 
 
-app.use('/api/v2/messages', contactRouter);
+app.use('/api/v2/contacts', contactRouter);
 
 
 app.use((req, res, next) => {

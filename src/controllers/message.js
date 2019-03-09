@@ -1,9 +1,19 @@
 import moment from 'moment';
 import uuidv4 from 'uuid/v4';
 import pool from '../models/connect';
+import { validateContact } from '../helpers/validations/contact';
 
 const Message = {
   async create(req, res) {
+
+    const { error } = validateContact(req.body);
+      if (error) {
+        return res.status(400).send({
+          status: 400,
+          error: error.details[0].message
+        });
+    }
+
     const text = `INSERT INTO
       contacts(email, firstname, lastname, createdOn, modifiedOn)
       VALUES($1, $2, $3, $4, $5)
@@ -35,7 +45,7 @@ const Message = {
   },
 
   async getOne(req, res) {
-    const text = 'SELECT * FROM contacts WHERE id = $1';
+    const text = 'SELECT * FROM contacts WHERE id_contact = $1';
     try {
       const { rows } = await pool.query(text, [req.params.id]);
       if (!rows[0]) {
@@ -48,20 +58,32 @@ const Message = {
   },
 
   async update(req, res) {
-    const findOneQuery = 'SELECT * FROM contacts WHERE id=$1';
+
+    const { error } = validateContact(req.body);
+      if (error) {
+        return res.status(400).send({
+          status: 400,
+          error: error.details[0].message
+        });
+    }
+
+    const findOneQuery = 'SELECT * FROM contacts WHERE id_contact=$1';
     const updateOneQuery =`UPDATE contacts
       SET email=$1,firstname=$2,lastname=$3, modifiedOn=$4
-      WHERE id=$5 returning *`;
+      WHERE id_contact=$5 returning *`;
     try {
       const { rows } = await pool.query(findOneQuery, [req.params.id]);
       if(!rows[0]) {
-        return res.status(404).send({'message': 'contact not found'});
+        return res.status(404).send({
+          status: 404,
+          message: `the contact with id ${req.params.id} is not in the Database`
+        });
       }
       const values = [
         req.body.email || rows[0].email,
         req.body.firstname || rows[0].firstname,
         req.body.lastname || rows[0].lastname,
-        moment(new Date()),
+        moment().format('LL'),
         req.params.id
       ];
       const response = await pool.query(updateOneQuery, values);
@@ -70,15 +92,21 @@ const Message = {
       return res.status(400).send(err);
     }
   },
-  
+
   async delete(req, res) {
-    const deleteQuery = 'DELETE FROM contacts WHERE id=$1 returning *';
+    const deleteQuery = 'DELETE FROM contacts WHERE id_contact=$1 returning *';
     try {
       const { rows } = await pool.query(deleteQuery, [req.params.id]);
       if(!rows[0]) {
-        return res.status(404).send({'message': 'contacts not found'});
+        return res.status(404).send({
+          status: 404,
+          'message': `the contacts with id ${req.params.id} not found in the Database`
+        });
       }
-      return res.status(204).send({ 'message': 'deleted' });
+      return res.status(204).send({
+        status: 204,
+        data : [{ message: 'Message deleted from the Database' }]
+      });
     } catch(error) {
       return res.status(400).send(error);
     }
