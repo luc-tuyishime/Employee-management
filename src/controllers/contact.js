@@ -105,7 +105,7 @@ const Message = {
       }
       return res.status(204).send({
         status: 204,
-        data : [{ message: 'Message deleted from the Database' }]
+        data : [{ message: 'Message deleted from the Database...' }]
       });
     } catch(error) {
       return res.status(400).send(error);
