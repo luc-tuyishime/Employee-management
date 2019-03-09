@@ -7,8 +7,8 @@
     "start": "nodemon --exec babel-node --presets @babel/preset-env  src/server.js",
     "test": "nyc --reporter=html --reporter=text mocha --require @babel/register --timeout 10000 --exit src/test",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
-    "delete": "node --require @babel/register src/model/db tablesDelete",
-    "create": "node --require @babel/register src/model/db tablesCreate",
+    "delete": "node --require @babel/register src/models/db tablesDelete",
+    "create": "node --require @babel/register src/models/db tablesCreate",
     "truncate": "node --require @babel/register src/model/db truncateUsers",
     "build": "babel src -d ./build",
     "run_build": "node build/server.js"

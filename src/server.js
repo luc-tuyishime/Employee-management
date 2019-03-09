@@ -1,10 +1,14 @@
 import express from 'express';
+import contactRouter from './routes/contacts'
 
 const app = express();
 
 app.get('/', (req, res, next) => {
-  res.send('Welcome to the EPIC Email..');
+  res.send({ 'message': 'Welcome to the EPIC Email..'});
 });
+
+
+app.use('/api/v2/messages', contactRouter);
 
 
 app.use((req, res, next) => {
