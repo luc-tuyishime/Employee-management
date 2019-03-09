@@ -1,6 +1,6 @@
 import express from 'express';
 
-import Message from '../controllers/contact';
+import Message from '../controllers/contacts';
 
 import { jsonParser } from '../helpers/bodyParser';
 
