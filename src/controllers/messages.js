@@ -125,18 +125,28 @@ const Message = {
       });
     } catch (error) {
       console.log(error);
-}
+    }
+  },
 
-   //  const text = 'SELECT * FROM messages WHERE id = $1 AND receiverId = $2';
-   //  try {
-   //   const { rows } = await pool.query(text, [req.params.id, req.user.id]);
-   //   if (!rows[0]) {
-   //     return res.status(404).send({'message': 'message not found'});
-   //   }
-   //   return res.status(200).send(rows[0]);
-   // } catch(error) {
-   //   return res.status(400).send(error)
-   //  }
+
+  async getSaved(req, res) {
+    try {
+      const {
+        rows
+      } = await pool.query('SELECT * FROM messages WHERE sender_id = $1', [req.user.id]);
+      if (rows.length > 0) {
+        return res.status(200).json({
+          status: 200,
+          data: rows[0],
+        });
+      }
+      return res.status(400).json({
+        status: 400,
+        error: 'You have no message yet...',
+      });
+    } catch (error) {
+      console.log(error);
+    }
   },
 
   async update(req, res) {
