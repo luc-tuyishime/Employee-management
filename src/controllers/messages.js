@@ -108,6 +108,7 @@ const Message = {
     }
   },
 
+  // GET ONE EMAIL
   async getOne(req, res) {
     try {
       const {
@@ -128,27 +129,32 @@ const Message = {
     }
   },
 
-
+  // SAVE Emails
   async getSaved(req, res) {
     try {
       const {
         rows
       } = await pool.query('SELECT * FROM messages WHERE sender_id = $1', [req.user.id]);
       if (rows.length > 0) {
+        let messages = [];
+        rows.forEach(message => {
+          messages.push(message);
+        });
         return res.status(200).json({
           status: 200,
-          data: rows[0],
+          data: messages,
         });
       }
       return res.status(400).json({
         status: 400,
-        error: 'You have no message yet',
+        error: 'No saved message',
       });
     } catch (error) {
       console.log(error);
     }
   },
 
+  // Update Message and send it
   async update(req, res) {
 
     const { error } = validateMessage(req.body);
@@ -159,10 +165,10 @@ const Message = {
         });
     }
 
-    const findOneQuery = 'SELECT * FROM messages WHERE id = $1 AND receiver_id = $2';
+    const findOneQuery = 'SELECT * FROM messages WHERE sender_id = $1 AND receiverId = $2';
     const updateOneQuery =`UPDATE messages
-      SET subject = $1, message = $2, parentMessageId = $3, status = $4
-      WHERE id = $5 AND receiver_id = $6 returning *`;
+      SET subject = $1, message = $2, status = $4
+      WHERE id = $5 AND receiverId = $6 returning *`;
       try {
         const { rows } = await pool.query(findOneQuery, [req.params.id, req.user.id]);
         if(!rows[0]) {
@@ -184,18 +190,29 @@ const Message = {
   }
   },
 
+  // DELETE A SAVED MESSAGE
   async delete(req, res) {
-    const deleteQuery = 'DELETE FROM messages WHERE id=$1 AND receiver_id = $2 returning *';
-   try {
-     const { rows } = await pool.query(deleteQuery, [req.params.id, req.user.id]);
-     if(!rows[0]) {
-       return res.status(404).send({'message': 'message not found'});
+    const deleteQuery = 'DELETE FROM messages WHERE id = $1 AND sender_id = $2 RETURNING *';
+    try {
+       const {
+         rows
+       } = await pool.query(deleteQuery, [req.params.id, req.user.id]);
+
+       if (rows.length > 0) {
+         return res.json({
+           status: 204,
+           message: 'message deleted !',
+         });
+       }
+
+       return res.status(400).json({
+         status: 400,
+         error: 'message doesn\'t exist',
+       });
+     } catch (error) {
+       console.log(error)
      }
-     return res.status(204).send({ 'message': 'deleted' });
-   } catch(error) {
-     return res.status(400).send(error);
-   }
-}
+  }
 }
 
 export default Message;
