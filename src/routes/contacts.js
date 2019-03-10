@@ -1,18 +1,18 @@
 import express from 'express';
 
-import Message from '../controllers/contacts';
+import Contact from '../controllers/contacts';
 
 import { jsonParser } from '../helpers/bodyParser';
 
 const contactRouter = express.Router();
 
 contactRouter.route('/:id')
-  .get(Message.getOne)
-  .put(jsonParser, Message.update)
-  .delete(Message.delete);
+  .get(Contact.getOne)
+  .put(jsonParser, Contact.update)
+  .delete(Contact.delete);
 
 contactRouter.route('/')
-  .get(Message.getAll)
-  .post(jsonParser, Message.create);
+  .get(Contact.getAll)
+  .post(jsonParser, Contact.create);
 
 export default contactRouter;

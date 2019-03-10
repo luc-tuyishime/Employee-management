@@ -3,7 +3,7 @@ import uuidv4 from 'uuid/v4';
 import pool from '../models/connect';
 import { validateContact } from '../helpers/validations/contact';
 
-const Message = {
+const Contact = {
   async create(req, res) {
 
     const { error } = validateContact(req.body);
@@ -113,4 +113,4 @@ const Message = {
   }
 }
 
-export default Message;
+export default Contact;

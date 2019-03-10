@@ -8,8 +8,7 @@ export const tablesCreate = () => {
        email VARCHAR(50) UNIQUE NOT NULL,
        firstname VARCHAR(24) NOT NULL,
        lastname VARCHAR(10) NOT NULL,
-       password VARCHAR(80) NOT NULL,
-       "isAdmin" BOOLEAN NOT NULL DEFAULT false
+       password VARCHAR(80) NOT NULL
      )`;
 
      const contacts = `CREATE TABLE IF NOT EXISTS
@@ -32,37 +31,26 @@ export const tablesCreate = () => {
       const messages = `CREATE TABLE IF NOT EXISTS
         messages(
          id SERIAL PRIMARY KEY,
-         createdOn date,
          subject VARCHAR(1000) NOT NULL,
          message VARCHAR (1000) NOT NULL,
-         parentMessageId INT NOT NULL,
+         parentMessageId UUID NOT NULL,
          status VARCHAR (50)  NOT NULL,
-         id_contact INT NOT NULL,
-         id_group INT NOT NULL
+         sender_id SERIAL NOT NULL,
+         receiverId SERIAL,
+         createdOn TIMESTAMP,
+         FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE
         )`;
 
       const groupMember = `CREATE TABLE IF NOT EXISTS
       groupMember(
         id SERIAL PRIMARY KEY,
-        id_group INT NOT NULL
+        owner_id INT NOT NULL,
+        FOREIGN KEY (owner_id) REFERENCES groups(id_group) ON DELETE CASCADE
       )`;
 
-  const newUserTable = `INSERT INTO
-  users(
-    "email",
-    "firstname",
-    "lastname",
-    "password",
-    "isAdmin"
-    ) VALUES (
-    'luc@gmail.com',
-    'luc',
-    'tuyishime',
-    '12345',
-    true
-    )`;
 
-  const queries = `${users}; ${contacts}; ${groups}; ${messages}; ${groupMember}; ${newUserTable}`;
+
+  const queries = `${users}; ${contacts}; ${groups}; ${messages}; ${groupMember}`;
 
   pool.query(queries);
 };

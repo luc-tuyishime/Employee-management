@@ -1,5 +1,6 @@
 import express from 'express';
 import contactRouter from './routes/contacts';
+import messageRouter from './routes/messages';
 import userRouter from './routes/users';
 import Auth from './middleware/auth';
 
@@ -11,6 +12,7 @@ app.get('/', (req, res, next) => {
 
 
 app.use('/api/v2/contacts', Auth.verifyToken, contactRouter);
+app.use('/api/v2/messages', Auth.verifyToken, messageRouter);
 app.use('/api/v2/users', userRouter);
 
 
