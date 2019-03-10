@@ -41,6 +41,19 @@ export const tablesCreate = () => {
          FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE
         )`;
 
+        const drafts = `CREATE TABLE IF NOT EXISTS
+          drafts(
+           id SERIAL PRIMARY KEY,
+           subject VARCHAR(1000) NOT NULL,
+           message VARCHAR (1000) NOT NULL,
+           parentMessageId UUID NOT NULL,
+           status VARCHAR (50)  NOT NULL,
+           sender_id SERIAL NOT NULL,
+           receiverId SERIAL,
+           createdOn TIMESTAMP,
+           FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE
+          )`;
+
       const groupMember = `CREATE TABLE IF NOT EXISTS
       groupMember(
         id SERIAL PRIMARY KEY,
@@ -50,7 +63,7 @@ export const tablesCreate = () => {
 
 
 
-  const queries = `${users}; ${contacts}; ${groups}; ${messages}; ${groupMember}`;
+  const queries = `${users}; ${contacts}; ${groups}; ${messages}; ${drafts}; ${groupMember}`;
 
   pool.query(queries);
 };
@@ -59,9 +72,10 @@ export const tablesDelete = () => {
   const users = 'DROP TABLE IF EXISTS users CASCADE';
   const contacts = 'DROP TABLE IF EXISTS contacts CASCADE';
   const message = 'DROP TABLE IF EXISTS messages';
+  const draft = 'DROP TABLE IF EXISTS drafts';
   const group = 'DROP TABLE IF EXISTS groups CASCADE';
   const groupMember = 'DROP TABLE IF EXISTS groupMember';
-  const deleteQueries = `${users}; ${contacts}; ${group}; ${message}; ${groupMember}`;
+  const deleteQueries = `${users}; ${contacts}; ${group}; ${message}; ${draft}; ${groupMember}`;
   pool.query(deleteQueries);
 };
 
