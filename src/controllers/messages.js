@@ -142,7 +142,7 @@ const Message = {
       }
       return res.status(400).json({
         status: 400,
-        error: 'You have no message yet...',
+        error: 'You have no message yet',
       });
     } catch (error) {
       console.log(error);
