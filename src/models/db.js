@@ -25,17 +25,20 @@ export const tablesCreate = () => {
       groups(
         id_group SERIAL PRIMARY KEY,
         name VARCHAR(50) NOT NULL,
-        role VARCHAR(50) NOT NULL
+        role VARCHAR(50) NOT NULL,
+        createdOn TIMESTAMP,
+        owner__id SERIAL NOT NULL,
+        FOREIGN KEY (owner__id) REFERENCES users(id) ON DELETE CASCADE
       )`;
 
       const messages = `CREATE TABLE IF NOT EXISTS
         messages(
          id SERIAL PRIMARY KEY,
+         sender_id SERIAL NOT NULL,
          subject VARCHAR(1000) NOT NULL,
          message VARCHAR (1000) NOT NULL,
          parentMessageId UUID NOT NULL,
          status VARCHAR (50)  NOT NULL,
-         sender_id SERIAL NOT NULL,
          receiverId SERIAL,
          createdOn TIMESTAMP,
          FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE

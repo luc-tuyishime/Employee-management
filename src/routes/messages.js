@@ -10,8 +10,7 @@ const messageRouter = express.Router();
 
 messageRouter.route('/:id')
   .get(Message.getOne)
-  .put(jsonParser, Message.update)
-  .delete(Message.delete);
+  .put(jsonParser, Message.update);
 
 messageRouter.route('/:userId')
   .get(Message.getAll)

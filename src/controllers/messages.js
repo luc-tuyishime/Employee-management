@@ -122,7 +122,7 @@ const Message = {
       }
       return res.status(400).json({
         status: 400,
-        error: 'You have no message yet...',
+        error: 'message not found...',
       });
     } catch (error) {
       console.log(error);
@@ -187,32 +187,8 @@ const Message = {
         return res.status(200).send(response.rows[0]);
       } catch(err) {
         return res.status(400).send(err);
-  }
+    }
   },
-
-  // DELETE A SAVED MESSAGE
-  async delete(req, res) {
-    const deleteQuery = 'DELETE FROM messages WHERE id = $1 AND sender_id = $2 RETURNING *';
-    try {
-       const {
-         rows
-       } = await pool.query(deleteQuery, [req.params.id, req.user.id]);
-
-       if (rows.length > 0) {
-         return res.json({
-           status: 204,
-           message: 'message deleted !',
-         });
-       }
-
-       return res.status(400).json({
-         status: 400,
-         error: 'message doesn\'t exist',
-       });
-     } catch (error) {
-       console.log(error)
-     }
-  }
 }
 
 export default Message;
