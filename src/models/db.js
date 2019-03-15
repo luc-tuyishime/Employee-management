@@ -11,16 +11,6 @@ export const tablesCreate = () => {
        password VARCHAR(80) NOT NULL
      )`;
 
-     const contacts = `CREATE TABLE IF NOT EXISTS
-      contacts(
-        id_contact SERIAL PRIMARY KEY,
-        email VARCHAR(100) NOT NULL,
-        firstname VARCHAR(50) NOT NULL,
-        lastname VARCHAR(50) NOT NULL,
-        createdOn TIMESTAMP,
-        modifiedOn TIMESTAMP
-      )`;
-
       const groups = `CREATE TABLE IF NOT EXISTS
       groups(
         id_group SERIAL PRIMARY KEY,
@@ -66,19 +56,18 @@ export const tablesCreate = () => {
 
 
 
-  const queries = `${users}; ${contacts}; ${groups}; ${messages}; ${drafts}; ${groupMember}`;
+  const queries = `${users}; ${groups}; ${messages}; ${drafts}; ${groupMember}`;
 
   pool.query(queries);
 };
 
 export const tablesDelete = () => {
   const users = 'DROP TABLE IF EXISTS users CASCADE';
-  const contacts = 'DROP TABLE IF EXISTS contacts CASCADE';
   const message = 'DROP TABLE IF EXISTS messages';
   const draft = 'DROP TABLE IF EXISTS drafts';
   const group = 'DROP TABLE IF EXISTS groups CASCADE';
   const groupMember = 'DROP TABLE IF EXISTS groupMember';
-  const deleteQueries = `${users}; ${contacts}; ${group}; ${message}; ${draft}; ${groupMember}`;
+  const deleteQueries = `${users}; ${group}; ${message}; ${draft}; ${groupMember}`;
   pool.query(deleteQueries);
 };
 

@@ -35,7 +35,9 @@ const User = {
     try {
       const { rows } = await pool.query(createQuery, values);
       const token = Helper.generateToken(rows[0].id);
-      return res.status(201).send({ token });
+      return res.status(201).send({ 
+        data: [{token}] 
+      });
     } catch(error) {
       if (error.routine === '_bt_check_unique') {
         return res.status(400).send({ 'message': 'User with that EMAIL already exist' })
@@ -61,7 +63,9 @@ const User = {
         return res.status(400).send({ 'message': 'The credentials you provided is incorrect' });
       }
       const token = Helper.generateToken(rows[0].id);
-      return res.status(200).send({ token });
+      return res.status(200).send({ 
+        data: [{token}] 
+      });
     } catch(error) {
       return res.status(400).send(error)
     }

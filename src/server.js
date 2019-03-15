@@ -1,5 +1,4 @@
 import express from 'express';
-import contactRouter from './routes/contacts';
 import messageRouter from './routes/messages';
 import userRouter from './routes/users';
 import draftMessageRouter from './routes/draftMessage';
@@ -13,7 +12,6 @@ app.get('/', (req, res, next) => {
 });
 
 
-app.use('/api/v2/contacts', Auth.verifyToken, contactRouter);
 app.use('/api/v2/messages', Auth.verifyToken, messageRouter);
 app.use('/api/v2/drafts', Auth.verifyToken, draftMessageRouter);
 app.use('/api/v2/groups', Auth.verifyToken, groupRouter);
