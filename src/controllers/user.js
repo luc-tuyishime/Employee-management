@@ -2,18 +2,10 @@ import moment from 'moment';
 import uuidv4 from 'uuid/v4';
 import pool from '../models/connect';
 import { Helper } from '../helpers/helpers';
-import { validateUser } from '../helpers/validations/user';
 
 const User = {
 
   async create(req, res) {
-    const { error } = validateUser(req.body);
-      if (error) {
-        return res.status(400).send({
-          status: 400,
-          error: error.details[0].message
-        });
-    }
 
     if (!Helper.isValidEmail(req.body.email)) {
       return res.status(400).send({ 'message': 'Please enter a valid email address' });
@@ -35,8 +27,8 @@ const User = {
     try {
       const { rows } = await pool.query(createQuery, values);
       const token = Helper.generateToken(rows[0].id);
-      return res.status(201).send({ 
-        data: [{token}] 
+      return res.status(201).send({
+        data: [{token}]
       });
     } catch(error) {
       if (error.routine === '_bt_check_unique') {
@@ -63,15 +55,15 @@ const User = {
         return res.status(400).send({ 'message': 'The credentials you provided is incorrect' });
       }
       const token = Helper.generateToken(rows[0].id);
-      return res.status(200).send({ 
-        data: [{token}] 
+      return res.status(200).send({
+        data: [{token}]
       });
     } catch(error) {
       return res.status(400).send(error)
     }
   },
 
-  async delete(req, res) {
+  async deleteUser(req, res) {
     const deleteQuery = 'DELETE FROM users WHERE id=$1 returning *';
     try {
       const { rows } = await pool.query(deleteQuery, [req.user.id]);

@@ -1,22 +1,20 @@
 import express from 'express';
-import messageRouter from './routes/messages';
+import morgan from 'morgan';
 import userRouter from './routes/users';
-import draftMessageRouter from './routes/draftMessage';
-import groupRouter from './routes/group';
-import Auth from './middleware/auth';
+import Router from './routes/index';
 
 const app = express();
+
+if (app.get('env') === 'development') {
+  app.use(morgan('tiny'));
+  console.log('development enabled...');
+}
 
 app.get('/', (req, res, next) => {
   res.send({ 'message': 'Welcome to the EPIC Email..'});
 });
 
-
-app.use('/api/v2/messages', Auth.verifyToken, messageRouter);
-app.use('/api/v2/drafts', Auth.verifyToken, draftMessageRouter);
-app.use('/api/v2/groups', Auth.verifyToken, groupRouter);
-app.use('/api/v2/users', userRouter);
-
+app.use('/api/v2', Router);
 
 app.use((req, res, next) => {
   const error = new Error('route not found');

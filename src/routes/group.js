@@ -2,15 +2,21 @@ import express from 'express';
 
 import Group from '../controllers/groups';
 
-import { jsonParser } from '../helpers/bodyParser';
+import validateGroup from '../helpers/validations/group';
+
+import { jsonParser } from '../middleware/bodyParser';
+
+const { validate } = validateGroup;
+
+const { create, getAll } = Group;
 
 const groupRouter = express.Router();
 
 
 groupRouter.route('/')
-  .post(jsonParser, Group.create);
+  .post(jsonParser, validate, create);
 
 groupRouter.route('/')
-  .get(Group.getAll);
+  .get(getAll);
 
 export default groupRouter;
