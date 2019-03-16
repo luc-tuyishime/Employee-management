@@ -14,7 +14,7 @@ const userRouter = express.Router();
 
 
 userRouter.route('/register')
-  .post(jsonParser, validate, create);
+  .post(validate, create);
 
   userRouter.route('/login')
     .post(jsonParser, login);

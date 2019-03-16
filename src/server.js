@@ -1,5 +1,5 @@
 import express from 'express';
-import bodyparser from 'body-parser';
+import bodyParser from 'body-parser';
 import morgan from 'morgan';
 import userRouter from './routes/users';
 
@@ -7,9 +7,13 @@ import Router from './routes/index';
 
 const app = express();
 
-app.use(bodyparser.json());
+app.use(bodyParser.json());
 
 app.use(express.json());
+
+app.use(bodyParser.urlencoded({
+  extended: true
+}));
 
 if (app.get('env') === 'development') {
   app.use(morgan('tiny'));
