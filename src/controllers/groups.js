@@ -8,14 +8,6 @@ import { validateGroup } from '../helpers/validations/group';
 const Group = {
   async create(req, res) {
 
-    const { error } = validateGroup(req.body);
-      if (error) {
-        return res.status(400).send({
-          status: 400,
-          error: error.details[0].message
-        });
-    }
-
       const text = `INSERT INTO
         groups(name, role, owner__id, createdOn)
         VALUES($1, $2, $3, $4)
@@ -66,7 +58,7 @@ const Group = {
       }
       return res.status(400).json({
         status: 400,
-        error: 'You have no groups',
+        error: 'You have no groups, please create and own it',
       });
     } catch(error) {
       return res.status(400).send(error);

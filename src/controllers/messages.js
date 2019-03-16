@@ -1,20 +1,10 @@
 import moment from 'moment';
 import uuidv4 from 'uuid/v4';
 import pool from '../models/connect';
-import { validateMessage } from '../helpers/validations/message';
-
 
 // SEND MESSAGE to User
 const Message = {
   async create(req, res) {
-
-    const { error } = validateMessage(req.body);
-      if (error) {
-        return res.status(400).send({
-          status: 400,
-          error: error.details[0].message
-        });
-    }
 
       const text = `INSERT INTO
         messages(subject, message, parentMessageId, status, sender_id, receiverId, createdOn)
@@ -130,7 +120,7 @@ const Message = {
   },
 
   // SAVE Emails
-  async getSaved(req, res) {
+  async sentMessage(req, res) {
     try {
       const {
         rows
@@ -147,7 +137,7 @@ const Message = {
       }
       return res.status(400).json({
         status: 400,
-        error: 'No saved message',
+        error: 'No sent message',
       });
     } catch (error) {
       console.log(error);
@@ -156,14 +146,6 @@ const Message = {
 
   // Update Message and send it
   async update(req, res) {
-
-    const { error } = validateMessage(req.body);
-      if (error) {
-        return res.status(400).send({
-          status: 400,
-          error: error.details[0].message
-        });
-    }
 
     const findOneQuery = 'SELECT * FROM messages WHERE sender_id = $1 AND receiverId = $2';
     const updateOneQuery =`UPDATE messages
@@ -189,6 +171,66 @@ const Message = {
         return res.status(400).send(err);
     }
   },
+
+  async createDraft(req, res) {
+
+      const text = `INSERT INTO
+        drafts(subject, message, parentMessageId, status, sender_id, createdOn)
+        VALUES($1, $2, $3, $4, $5, $6)
+        returning *`;
+      const values = [
+        req.body.subject,
+        req.body.message,
+        uuidv4(),
+        req.body.status,
+        req.user.id,
+        moment().format('LL')
+      ];
+
+      try {
+        const {
+          rows
+        } = await pool.query(text, values);
+
+        if (rows.length > 0) {
+          return res.status(201).json({
+            status: 201,
+            data: rows[0],
+          });
+        }
+
+        return res.status(400).json({
+          status: 400,
+          error: 'draft not sended!',
+        });
+      } catch (error) {
+        console.log(error);
+      }
+  },
+
+  // DELETE A DRAFT MESSAGE
+  async deleteDraft(req, res) {
+    const deleteQuery = 'DELETE FROM drafts WHERE id = $1 AND sender_id = $2 RETURNING *';
+    try {
+       const {
+         rows
+       } = await pool.query(deleteQuery, [req.params.id, req.user.id]);
+
+       if (rows.length > 0) {
+         return res.json({
+           status: 204,
+           message: 'message deleted !',
+         });
+       }
+
+       return res.status(400).json({
+         status: 400,
+         error: 'drafts doesn\'t exist',
+       });
+     } catch (error) {
+       console.log(error)
+     }
+  }
 }
 
 export default Message;

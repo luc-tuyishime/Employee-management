@@ -2,18 +2,24 @@ import express from 'express';
 
 import User from '../controllers/user';
 
-import { jsonParser } from '../helpers/bodyParser';
+import validateUser from '../helpers/validations/user';
+
+const { validate } = validateUser;
+
+const { create, login, deleteUser} = User;
+
+import { jsonParser } from '../middleware/bodyParser';
 
 const userRouter = express.Router();
 
 
 userRouter.route('/')
-  .post(jsonParser, User.create);
+  .post(jsonParser, validate, create);
 
   userRouter.route('/login')
-    .post(jsonParser, User.login);
+    .post(jsonParser, login);
 
 userRouter.route('/me')
-  .delete(User.delete)
+  .delete(deleteUser)
 
 export default userRouter;

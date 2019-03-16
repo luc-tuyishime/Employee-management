@@ -2,28 +2,40 @@ import express from 'express';
 
 import Message from '../controllers/messages';
 
-import { jsonParser } from '../helpers/bodyParser';
+import messageValidate from '../helpers/validations/message';
+
+const { update, create, getAll, getUnread, sentMessage, createDraft, deleteDraft } = Message;
+
+const { validate, validateDraft } = messageValidate;
+
+import { jsonParser } from '../middleware/bodyParser';
 
 const messageRouter = express.Router();
 
+messageRouter.route('/sent')
+  .get(sentMessage);
 
+  messageRouter.route('/drafts')
+    .post(jsonParser, validateDraft, createDraft);
 
 messageRouter.route('/:id')
   .get(Message.getOne)
-  .put(jsonParser, Message.update);
+  .put(jsonParser, validate, update);
 
 messageRouter.route('/:userId')
   .get(Message.getAll)
-  .post(jsonParser, Message.create);
+  .post(jsonParser, validate, create);
 
 messageRouter.route('/')
   .get(Message.getAll);
 
 messageRouter.route('/unread')
-  .get(Message.getUnread);
+  .get(getUnread);
 
-messageRouter.route('/saved/emails')
-  .get(Message.getSaved);
+  messageRouter.route('/drafts/:id')
+    .delete(deleteDraft);
+
+
 
 
 export default messageRouter;
