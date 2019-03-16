@@ -1,3 +1,4 @@
+import '@babel/polyfill'
 import express from 'express';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
@@ -11,7 +12,7 @@ app.use(bodyParser.json());
 app.use(express.json());
 
 app.use(bodyParser.urlencoded({
-  extended: true
+  extended: false
 }));
 
 if (app.get('env') === 'development') {
