@@ -1,7 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
-import userRouter from './routes/users';
 
 import Router from './routes/index';
 

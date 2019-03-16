@@ -6,15 +6,14 @@ import validateUser from '../helpers/validations/user';
 
 const { validate } = validateUser;
 
-const { create, login, deleteUser} = User;
+const { create, login, deleteUser } = User;
 
 import { jsonParser } from '../middleware/bodyParser';
 
 const userRouter = express.Router();
 
 
-userRouter.route('/register')
-  .post(validate, create);
+userRouter.post('/register', validate, create);
 
   userRouter.route('/login')
     .post(jsonParser, login);
