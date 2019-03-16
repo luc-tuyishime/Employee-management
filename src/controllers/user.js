@@ -3,9 +3,9 @@ import uuidv4 from 'uuid/v4';
 import pool from '../models/connect';
 import { Helper } from '../helpers/helpers';
 
-const User = {
+class User {
 
-  async create(req, res, next) {
+  static async create(req, res, next) {
 
     if (!Helper.isValidEmail(req.body.email)) {
       return res.status(400).send({ 'message': 'Please enter a valid email address' });
@@ -37,9 +37,9 @@ const User = {
       return res.status(400).send(error);
     }
     next();
-  },
+  }
 
-  async login(req, res) {
+  static async login(req, res) {
     if (!req.body.email || !req.body.password) {
       return res.status(400).send({'message': 'Some values are missing'});
     }
@@ -62,9 +62,9 @@ const User = {
     } catch(error) {
       return res.status(400).send(error)
     }
-  },
+  }
 
-  async deleteUser(req, res) {
+  static async deleteUser(req, res) {
     const deleteQuery = 'DELETE FROM users WHERE id=$1 returning *';
     try {
       const { rows } = await pool.query(deleteQuery, [req.user.id]);
