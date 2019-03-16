@@ -5,7 +5,7 @@ import { Helper } from '../helpers/helpers';
 
 const User = {
 
-  async create(req, res) {
+  async create(req, res, next) {
 
     if (!Helper.isValidEmail(req.body.email)) {
       return res.status(400).send({ 'message': 'Please enter a valid email address' });
@@ -36,6 +36,7 @@ const User = {
       }
       return res.status(400).send(error);
     }
+    next();
   },
 
   async login(req, res) {
