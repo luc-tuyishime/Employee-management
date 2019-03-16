@@ -13,7 +13,7 @@ import { jsonParser } from '../middleware/bodyParser';
 const userRouter = express.Router();
 
 
-userRouter.route('/')
+userRouter.route('/register')
   .post(jsonParser, validate, create);
 
   userRouter.route('/login')
