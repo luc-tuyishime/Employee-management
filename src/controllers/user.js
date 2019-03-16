@@ -1,9 +1,10 @@
+import "@babel/polyfill";
 import moment from 'moment';
 import uuidv4 from 'uuid/v4';
 import pool from '../models/connect';
 import { Helper } from '../helpers/helpers';
 
-class User {
+class User  {
 
   static async create(req, res, next) {
 
