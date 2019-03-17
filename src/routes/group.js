@@ -4,18 +4,20 @@ import Group from '../controllers/groups';
 
 import validateGroup from '../helpers/validations/group';
 
-import { jsonParser } from '../middleware/bodyParser';
-
 const { validate } = validateGroup;
 
-const { create, getAll, deleteGroup, createGroupMessage } = Group;
+const { create, getAll, deleteGroup, createGroupMessage, addUserToGroup, updateGroup } = Group;
 
 const groupRouter = express.Router();
 
 
-groupRouter.route('/').post(jsonParser, validate, create);
+groupRouter.route('/').post(validate, create);
+
+groupRouter.route('/:groupId/users').post(addUserToGroup);
 
 groupRouter.route('/').get(getAll);
+
+groupRouter.route('/:id').patch(updateGroup);
 
 groupRouter.route('/:id').delete(deleteGroup);
 
