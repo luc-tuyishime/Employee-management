@@ -7,13 +7,15 @@ import Router from './routes/index';
 
 const app = express();
 
-app.use(bodyParser.json());
+
 
 app.use(express.json());
 
 app.use(bodyParser.urlencoded({
-  extended: false
+  extended: true
 }));
+
+app.use(bodyParser.json());
 
 if (app.get('env') === 'development') {
   app.use(morgan('tiny'));

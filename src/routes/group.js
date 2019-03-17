@@ -8,15 +8,15 @@ import { jsonParser } from '../middleware/bodyParser';
 
 const { validate } = validateGroup;
 
-const { create, getAll } = Group;
+const { create, getAll, deleteGroup } = Group;
 
 const groupRouter = express.Router();
 
 
-groupRouter.route('/')
-  .post(jsonParser, validate, create);
+groupRouter.route('/').post(jsonParser, validate, create);
 
-groupRouter.route('/')
-  .get(getAll);
+groupRouter.route('/').get(getAll);
+
+groupRouter.route('/:id').delete(deleteGroup);
 
 export default groupRouter;
