@@ -41,7 +41,7 @@ const Group = {
   },
 
 
-  // Get all messages
+  // GET ALL GROUPS
   async getAll(req, res) {
     const findAllQuery = 'SELECT * FROM groups WHERE owner__id = $1';
     try {
@@ -66,28 +66,28 @@ const Group = {
   },
 
   // DELETE A GROUP I OWN
-  // async delete(req, res) {
-  //   const deleteQuery = 'DELETE FROM drafts WHERE id = $1 AND sender_id = $2 RETURNING *';
-  //   try {
-  //      const {
-  //        rows
-  //      } = await pool.query(deleteQuery, [req.params.id, req.user.id]);
-  //
-  //      if (rows.length > 0) {
-  //        return res.json({
-  //          status: 204,
-  //          message: 'message deleted !',
-  //        });
-  //      }
-  //
-  //      return res.status(400).json({
-  //        status: 400,
-  //        error: 'drafts doesn\'t exist',
-  //      });
-  //    } catch (error) {
-  //      console.log(error)
-  //    }
-  // }
+  async deleteGroup(req, res) {
+    const deleteQuery = 'DELETE FROM groups WHERE id_group = $1 AND owner__id = $2 RETURNING *';
+    try {
+       const {
+         rows
+       } = await pool.query(deleteQuery, [req.params.id, req.user.id]);
+
+       if (rows.length > 0) {
+         return res.json({
+           status: 204,
+           message: 'group deleted !',
+         });
+       }
+
+       return res.status(400).json({
+         status: 400,
+         error: 'group doesn\'t exist',
+       });
+     } catch (error) {
+       console.log(error)
+     }
+  }
 }
 
 export default Group;

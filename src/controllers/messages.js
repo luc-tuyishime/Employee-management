@@ -2,10 +2,9 @@ import moment from 'moment';
 import uuidv4 from 'uuid/v4';
 import pool from '../models/connect';
 
-// SEND MESSAGE to User
+// SEND MESSAGE TO USER
 const Message = {
   async create(req, res) {
-
       const text = `INSERT INTO
         messages(subject, message, parentMessageId, status, sender_id, receiverId, createdOn)
         VALUES($1, $2, $3, $4, $5, $6, $7)
@@ -50,7 +49,7 @@ const Message = {
       }
   },
 
-  // Get all messages
+  // GET ALL MESSAGES
   async getAll(req, res) {
     const findAllQuery = 'SELECT * FROM messages WHERE receiverId = $1';
     try {
@@ -119,7 +118,7 @@ const Message = {
     }
   },
 
-  // SAVE Emails
+  // SENT EMAILS
   async sentMessage(req, res) {
     try {
       const {
@@ -144,7 +143,7 @@ const Message = {
     }
   },
 
-  // Update Message and send it
+  // UPDATE MESSAGE AND SEND
   async update(req, res) {
 
     const findOneQuery = 'SELECT * FROM messages WHERE sender_id = $1 AND receiverId = $2';
