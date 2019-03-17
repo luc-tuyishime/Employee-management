@@ -8,7 +8,7 @@ import { jsonParser } from '../middleware/bodyParser';
 
 const { validate } = validateGroup;
 
-const { create, getAll, deleteGroup } = Group;
+const { create, getAll, deleteGroup, createGroupMessage } = Group;
 
 const groupRouter = express.Router();
 
