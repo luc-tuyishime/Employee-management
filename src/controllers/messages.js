@@ -229,6 +229,77 @@ const Message = {
      } catch (error) {
        console.log(error)
      }
+  },
+
+  // SEND MESSAGE TO GROUP
+  async createGroupMessage(req, res) {
+      const text = `INSERT INTO
+        groupMessages(subject, message, parentMessageId, status, sender_id, group_id, createdOn)
+        VALUES($1, $2, $3, $4, $5, $6, $7)
+        returning *`;
+      const values = [
+        req.body.subject,
+        req.body.message,
+        uuidv4(),
+        req.body.status,
+        req.user.id,
+        req.params.groupId,
+        moment().format('LL')
+      ];
+
+      try {
+        const checkUser = await pool.query('SELECT * FROM groups WHERE id_group = $1', [req.params.groupId]);
+
+        if (checkUser.rows.length <= 0) {
+          return res.status(200).json({
+            status: 200,
+            error: 'Sorry, this group doesn\'t exist',
+          });
+        }
+
+        const {
+          rows
+        } = await pool.query(text, values);
+
+        if (rows.length > 0) {
+          return res.status(201).json({
+            status: 201,
+            data: rows[0],
+          });
+        }
+
+        return res.status(400).json({
+          status: 400,
+          error: 'message not sended!',
+        });
+      } catch (error) {
+        console.log(error);
+      }
+  },
+
+  // GET ALL MESSAGES FOR A GROUP
+  async getAllGroupMessages(req, res) {
+    try {
+      const {
+        rows
+      } = await pool.query('SELECT * FROM groupMessages WHERE group_id = $1 AND sender_id = $2', [req.params.groupId, req.user.id]);
+      if (rows.length > 0) {
+        let messages = [];
+        rows.forEach(message => {
+          messages.push(message);
+        });
+        return res.status(200).json({
+          status: 200,
+          data: messages,
+        });
+      }
+      return res.status(400).json({
+        status: 400,
+        error: 'message not found...',
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 }
 
