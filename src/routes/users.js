@@ -13,10 +13,6 @@ const userRouter = express.Router();
 
 userRouter.post('/register', validate, create);
 
-  userRouter.route('/login')
-    .post(login);
-
-userRouter.route('/me')
-  .delete(deleteUser)
+userRouter.route('/login').post(login);
 
 export default userRouter;

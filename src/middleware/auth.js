@@ -5,14 +5,20 @@ const Auth = {
   async verifyToken(req, res, next) {
     const token = req.headers['x-access-token'];
     if(!token) {
-      return res.status(400).send({ 'message': 'Access denied..' });
+      return res.status(400).send({
+          status: 400,
+         'message': 'Access denied..'
+       });
     }
     try {
       const decoded = await jwt.verify(token, process.env.SECRET);
       const text = 'SELECT * FROM users WHERE id = $1';
       const { rows } = await db.query(text, [decoded.userId]);
       if(!rows[0]) {
-        return res.status(400).send({ 'message': 'The token you provided is invalid' });
+        return res.status(400).send({
+            status: 400,
+           'message': 'The token you provided is invalid'
+         });
       }
       req.user = { id: decoded.userId };
       next();

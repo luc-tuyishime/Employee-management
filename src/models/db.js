@@ -13,39 +13,39 @@ export const tablesCreate = () => {
 
       const groups = `CREATE TABLE IF NOT EXISTS
       groups(
-        id_group SERIAL PRIMARY KEY,
+        id SERIAL PRIMARY KEY,
         name VARCHAR(50) NOT NULL,
         role VARCHAR(50) NOT NULL,
         createdOn TIMESTAMP,
-        owner__id SERIAL NOT NULL,
-        FOREIGN KEY (owner__id) REFERENCES users(id) ON DELETE CASCADE
+        ownerId SERIAL NOT NULL,
+        FOREIGN KEY (ownerId) REFERENCES users(id) ON DELETE CASCADE
       )`;
 
       const messages = `CREATE TABLE IF NOT EXISTS
         messages(
          id SERIAL PRIMARY KEY,
-         sender_id SERIAL NOT NULL,
+         senderId SERIAL NOT NULL,
          subject VARCHAR(1000) NOT NULL,
          message VARCHAR (1000) NOT NULL,
          parentMessageId UUID NOT NULL,
          status VARCHAR (50)  NOT NULL,
          receiverId SERIAL,
          createdOn TIMESTAMP,
-         FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE
+         FOREIGN KEY (senderId) REFERENCES users(id) ON DELETE CASCADE
         )`;
 
         const groupMessages = `CREATE TABLE IF NOT EXISTS
           groupMessages(
            id SERIAL PRIMARY KEY,
-           sender_id SERIAL NOT NULL,
+           senderId SERIAL NOT NULL,
            subject VARCHAR(1000) NOT NULL,
            message VARCHAR (1000) NOT NULL,
            parentMessageId UUID NOT NULL,
            status VARCHAR (50)  NOT NULL,
-           group_id SERIAL,
+           groupId SERIAL,
            createdOn TIMESTAMP,
-           FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE,
-           FOREIGN KEY (group_id) REFERENCES groups(id_group) ON DELETE CASCADE
+           FOREIGN KEY (senderId) REFERENCES users(id) ON DELETE CASCADE,
+           FOREIGN KEY (groupId) REFERENCES groups(id) ON DELETE CASCADE
           )`;
 
         const drafts = `CREATE TABLE IF NOT EXISTS
@@ -55,17 +55,18 @@ export const tablesCreate = () => {
            message VARCHAR (1000) NOT NULL,
            parentMessageId UUID NOT NULL,
            status VARCHAR (50)  NOT NULL,
-           sender_id SERIAL NOT NULL,
-           receiverId SERIAL,
+           senderId SERIAL NOT NULL,
            createdOn TIMESTAMP,
-           FOREIGN KEY (sender_id) REFERENCES users(id) ON DELETE CASCADE
+           FOREIGN KEY (senderId) REFERENCES users(id) ON DELETE CASCADE
           )`;
 
       const groupMember = `CREATE TABLE IF NOT EXISTS
       groupMember(
         id SERIAL PRIMARY KEY,
-        owner_id INT NOT NULL,
-        FOREIGN KEY (owner_id) REFERENCES groups(id_group) ON DELETE CASCADE
+        userId INT NOT NULL,
+        userRole VARCHAR (50)  NOT NULL,
+        groupId INT NOT NULL,
+        FOREIGN KEY (groupId) REFERENCES groups(id) ON DELETE CASCADE
       )`;
 
 

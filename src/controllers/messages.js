@@ -2,11 +2,13 @@ import moment from 'moment';
 import uuidv4 from 'uuid/v4';
 import pool from '../models/connect';
 
-// SEND MESSAGE TO USER
+
 const Message = {
+
+  // SEND MESSAGE TO USER
   async create(req, res) {
       const text = `INSERT INTO
-        messages(subject, message, parentMessageId, status, sender_id, receiverId, createdOn)
+        messages(subject, message, parentMessageId, status, senderId, receiverId, createdOn)
         VALUES($1, $2, $3, $4, $5, $6, $7)
         returning *`;
       const values = [
@@ -20,7 +22,7 @@ const Message = {
       ];
 
       try {
-        const checkUser = await pool.query('SELECT * FROM users WHERE id=$1', [req.params.userId]);
+        const checkUser = await pool.query('SELECT * FROM users WHERE id = $1', [req.params.userId]);
 
         if (checkUser.rows.length <= 0) {
           return res.status(200).json({
@@ -73,30 +75,6 @@ const Message = {
     }
   },
 
-  // GET Unread messages
-  async getUnread(req, res) {
-    const findAllQuery = 'SELECT * FROM messages WHERE status = "read" ';
-    try {
-      const { rows } = await pool.query(findAllQuery, [req.user.id]);
-      if (rows.length > 0) {
-        let messages = [];
-        rows.forEach(message => {
-          messages.push(message);
-        });
-        return res.status(200).json({
-          status: 200,
-          data: messages,
-        });
-      }
-      return res.status(400).json({
-        status: 400,
-        error: 'NO unread message',
-      });
-    } catch(error) {
-      return res.status(400).send(error);
-    }
-  },
-
   // GET ONE EMAIL
   async getOne(req, res) {
     try {
@@ -123,7 +101,7 @@ const Message = {
     try {
       const {
         rows
-      } = await pool.query('SELECT * FROM messages WHERE sender_id = $1', [req.user.id]);
+      } = await pool.query('SELECT * FROM messages WHERE senderId = $1', [req.user.id]);
       if (rows.length > 0) {
         let messages = [];
         rows.forEach(message => {
@@ -146,7 +124,7 @@ const Message = {
   // UPDATE MESSAGE AND SEND
   async update(req, res) {
 
-    const findOneQuery = 'SELECT * FROM messages WHERE sender_id = $1 AND receiverId = $2';
+    const findOneQuery = 'SELECT * FROM messages WHERE senderId = $1 AND receiverId = $2';
     const updateOneQuery =`UPDATE messages
       SET subject = $1, message = $2, status = $4
       WHERE id = $5 AND receiverId = $6 returning *`;
@@ -174,7 +152,7 @@ const Message = {
   async createDraft(req, res) {
 
       const text = `INSERT INTO
-        drafts(subject, message, parentMessageId, status, sender_id, createdOn)
+        drafts(subject, message, parentMessageId, status, senderId, createdOn)
         VALUES($1, $2, $3, $4, $5, $6)
         returning *`;
       const values = [
@@ -209,7 +187,7 @@ const Message = {
 
   // DELETE A DRAFT MESSAGE
   async deleteDraft(req, res) {
-    const deleteQuery = 'DELETE FROM drafts WHERE id = $1 AND sender_id = $2 RETURNING *';
+    const deleteQuery = 'DELETE FROM drafts WHERE id = $1 AND senderId = $2 RETURNING *';
     try {
        const {
          rows
@@ -234,7 +212,7 @@ const Message = {
   // SEND MESSAGE TO GROUP
   async createGroupMessage(req, res) {
       const text = `INSERT INTO
-        groupMessages(subject, message, parentMessageId, status, sender_id, group_id, createdOn)
+        groupMessages(subject, message, parentMessageId, status, senderId, groupId, createdOn)
         VALUES($1, $2, $3, $4, $5, $6, $7)
         returning *`;
       const values = [
@@ -248,7 +226,7 @@ const Message = {
       ];
 
       try {
-        const checkUser = await pool.query('SELECT * FROM groups WHERE id_group = $1', [req.params.groupId]);
+        const checkUser = await pool.query('SELECT * FROM groups WHERE id = $1', [req.params.groupId]);
 
         if (checkUser.rows.length <= 0) {
           return res.status(200).json({
@@ -282,7 +260,7 @@ const Message = {
     try {
       const {
         rows
-      } = await pool.query('SELECT * FROM groupMessages WHERE group_id = $1 AND sender_id = $2', [req.params.groupId, req.user.id]);
+      } = await pool.query('SELECT * FROM groupMessages WHERE groupId = $1 AND senderId = $2', [req.params.groupId, req.user.id]);
       if (rows.length > 0) {
         let messages = [];
         rows.forEach(message => {
@@ -293,9 +271,9 @@ const Message = {
           data: messages,
         });
       }
-      return res.status(400).json({
-        status: 400,
-        error: 'message not found...',
+      return res.status(404).json({
+        status: 404,
+        error: 'Group not found...',
       });
     } catch (error) {
       console.log(error);
