@@ -16,18 +16,18 @@ A web app that helps people exchange messages / information over the internet
 | / | GET | The index (welcome message) |
 | /api/v2/users/register | POST | Register a new User |
 | /api/v2/users/login | POST | Login registered User |
-| /api/v2/messages/<userId> | POST | Send messages to a User |
+| /api/v2/messages/`<userId>` | POST | Send messages to a User |
 | /api/v2/messages | GET | GET all messages for a User |
-| /api/v2/messages/<userId> | GET | Get a specific message for a User |
+| /api/v2/messages/`<userId>` | GET | Get a specific message for a User |
 | /api/v2/messages/sent | GET | GET all sent email for user |
 | /api/v2/messages/drafts | POST | Save a draft email |
-| /api/v2/messages/drafts/<messageId> | DELETE | Delete a draft email |
+| /api/v2/messages/drafts/`<messageId>` | DELETE | Delete a draft email |
 | /api/v2/groups | POST | Create and own a Group |
 | /api/v2/groups | GET | Get all groups for a user |
-| /api/v2/groups/<groupId> | DELETE | Delete a group i own |
-| /api/v2/messages/groups/<groupId> | POST | Send email to a Group |
-| /api/v2/messages/groups/<groupId> | GET | Get emails for a specific Group |
-| /api/v2/groups/<groupId> | PATCH | Edit name of a specific Group |
+| /api/v2/groups/`<groupId>` | DELETE | Delete a group i own |
+| /api/v2/messages/groups/`<groupId>` | POST | Send email to a Group |
+| /api/v2/messages/groups/`<groupId>` | GET | Get emails for a specific Group |
+| /api/v2/groups/`<groupId>` | PATCH | Edit name of a specific Group |
 
 ## Tools Used
 
@@ -88,8 +88,8 @@ The installation of this application is fairly straightforward, After cloning th
 ```
 > Clone the repository
 > Copy the .env to a .env then correct changes to the corresponding variables
-> Run [ npm install ] to install node packages
-> Run [ npm start ] to start the web app
+> Run `npm install` to install node packages
+> Run `npm start` to start the web app
 ```
 
 It will install the node_modules which will help you run the project on your local machine.
@@ -108,7 +108,7 @@ It will install the node_modules which will help you run the project on your loc
 * PG_USER = username
 * PG_DATABASE = epicemail
 * PG_PASSWORD = secretpassword
-* PG_PORT = 
+* PG_PORT =
 
 **Version 1.0.0**
 
