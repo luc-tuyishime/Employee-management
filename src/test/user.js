@@ -26,7 +26,7 @@ describe('Homepage, user and required test to run others', () => {
       chai.request(server)
         .post('/api/v2/users/register')
         .send({
-          email: 'ovotyga@gmail.com',
+          email: 'ovotygaa@gmail.com',
           firstname: 'braneck',
           lastname: 'ngombele',
           password: 'qwerty'
@@ -89,7 +89,7 @@ describe('Homepage, user and required test to run others', () => {
         chai.request(server)
           .post('/api/v2/users/login')
           .send({
-            email: 'jeanluc@gmail.com',
+            email: 'ovotygaa@gmail.com',
             password: 'qwerty',
           })
 
