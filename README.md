@@ -16,7 +16,7 @@ A web app that helps people exchange messages / information over the internet
 | / | GET | The index (welcome message) |
 | /api/v2/users/register | POST | Register a new User |
 | /api/v2/users/login | POST | Login registered User |
-| /api/v2/messages/`<userId>` | POST | Send messages to a User |
+| /api/v2/messages/`userId` | POST | Send messages to a User |
 | /api/v2/messages | GET | GET all messages for a User |
 | /api/v2/messages/`<userId>` | GET | Get a specific message for a User |
 | /api/v2/messages/sent | GET | GET all sent email for user |
