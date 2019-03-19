@@ -5,8 +5,8 @@ const Auth = {
   async verifyToken(req, res, next) {
     const token = req.headers['x-access-token'];
     if(!token) {
-      return res.status(400).send({
-          status: 400,
+      return res.status(401).send({
+          status: 401,
          'message': 'Access denied..'
        });
     }

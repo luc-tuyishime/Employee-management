@@ -66,8 +66,8 @@ const Message = {
           data: messages,
         });
       }
-      return res.status(400).json({
-        status: 400,
+      return res.status(204).json({
+        status: 204,
         error: 'You have no messages',
       });
     } catch(error) {
@@ -87,8 +87,8 @@ const Message = {
           data: rows[0],
         });
       }
-      return res.status(400).json({
-        status: 400,
+      return res.status(204).json({
+        status: 204,
         error: 'message not found...',
       });
     } catch (error) {
@@ -112,8 +112,8 @@ const Message = {
           data: messages,
         });
       }
-      return res.status(400).json({
-        status: 400,
+      return res.status(204).json({
+        status: 204,
         error: 'No sent message',
       });
     } catch (error) {
@@ -200,8 +200,8 @@ const Message = {
          });
        }
 
-       return res.status(400).json({
-         status: 400,
+       return res.status(204).json({
+         status: 204,
          error: 'drafts doesn\'t exist',
        });
      } catch (error) {
@@ -209,51 +209,7 @@ const Message = {
      }
   },
 
-  // SEND MESSAGE TO GROUP
-  async createGroupMessage(req, res) {
-      const text = `INSERT INTO
-        groupMessages(subject, message, parentMessageId, status, senderId, groupId, createdOn)
-        VALUES($1, $2, $3, $4, $5, $6, $7)
-        returning *`;
-      const values = [
-        req.body.subject,
-        req.body.message,
-        uuidv4(),
-        req.body.status,
-        req.user.id,
-        req.params.groupId,
-        moment().format('LL')
-      ];
 
-      try {
-        const checkUser = await pool.query('SELECT * FROM groups WHERE id = $1', [req.params.groupId]);
-
-        if (checkUser.rows.length <= 0) {
-          return res.status(200).json({
-            status: 200,
-            error: 'Sorry, this group doesn\'t exist',
-          });
-        }
-
-        const {
-          rows
-        } = await pool.query(text, values);
-
-        if (rows.length > 0) {
-          return res.status(201).json({
-            status: 201,
-            data: rows[0],
-          });
-        }
-
-        return res.status(400).json({
-          status: 400,
-          error: 'message not sended!',
-        });
-      } catch (error) {
-        console.log(error);
-      }
-  },
 
   // GET ALL MESSAGES FOR A GROUP
   async getAllGroupMessages(req, res) {
@@ -271,8 +227,8 @@ const Message = {
           data: messages,
         });
       }
-      return res.status(404).json({
-        status: 404,
+      return res.status(204).json({
+        status: 204,
         error: 'Group not found...',
       });
     } catch (error) {

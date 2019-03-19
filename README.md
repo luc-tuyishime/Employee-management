@@ -115,7 +115,7 @@ npm test
 | /api/v2/groups | POST | Create and own a Group |
 | /api/v2/groups | GET | Get all groups for a user |
 | /api/v2/groups/`<groupId>` | DELETE | Delete a group i own |
-| /api/v2/messages/groups/`<groupId>` | POST | Send email to a Group |
+| /api/v2/groups/`<groupId>/messages` | POST | Send email to a Group |
 | /api/v2/messages/groups/`<groupId>` | GET | Get emails for a specific Group |
 | /api/v2/groups/`<groupId>` | PATCH | Edit name of a specific Group |
 
