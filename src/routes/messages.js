@@ -4,7 +4,7 @@ import Message from '../controllers/messages';
 
 import messageValidate from '../helpers/validations/message';
 
-const { update, create, getAll, sentMessage, createDraft, deleteDraft, createGroupMessage, getAllGroupMessages } = Message;
+const { update, create, getAll, sentMessage, createDraft, deleteDraft, getAllGroupMessages } = Message;
 
 const { validate, validateDraft } = messageValidate;
 
@@ -25,7 +25,6 @@ messageRouter.route('/:userId')
   .post(validate, create);
 
 messageRouter.route('/groups/:groupId')
-  .post(validate, createGroupMessage)
   .get(getAllGroupMessages);
 
 messageRouter.route('/')

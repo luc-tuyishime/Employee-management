@@ -66,7 +66,9 @@ export const tablesCreate = () => {
         userId INT NOT NULL,
         userRole VARCHAR (50)  NOT NULL,
         groupId INT NOT NULL,
-        FOREIGN KEY (groupId) REFERENCES groups(id) ON DELETE CASCADE
+        owner_id INT NOT NULL,
+        FOREIGN KEY (groupId) REFERENCES groups(id) ON DELETE CASCADE,
+        FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE
       )`;
 
 

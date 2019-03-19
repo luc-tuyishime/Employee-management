@@ -29,6 +29,7 @@ const User = {
       const token = Helper.generateToken(rows[0].id);
       return res.status(201).send({
         data: [{
+          status: 201,
           token,
           user: values
         }]
@@ -40,7 +41,10 @@ const User = {
           'message': 'User with that EMAIL already exist'
         })
       }
-      return res.status(400).send(error);
+      return res.status(400).send({
+        status: 400,
+        error
+      });
     }
   },
 
@@ -63,18 +67,19 @@ const User = {
       if (!rows[0]) {
         return res.status(400).send({
            status: 400,
-          'message': 'The credentials you provided is incorrect'
+          'message': 'The email you provided is incorrect'
         });
       }
       if(!Helper.comparePassword(rows[0].password, req.body.password)) {
         return res.status(400).send({
            status: 400,
-          'message': 'The credentials you provided is incorrect'
+          'message': 'The password you provided is incorrect'
         });
       }
       const token = Helper.generateToken(rows[0].id);
       return res.status(200).send({
         data: [{
+          status: 200,
           token,
           user: rows
         }]

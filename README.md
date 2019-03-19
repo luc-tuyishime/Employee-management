@@ -1,4 +1,6 @@
-[![Build Status](https://travis-ci.org/luc-tuyishime/EPIC-Mail-3.svg?branch=develop)](https://travis-ci.org/luc-tuyishime/EPIC-Mail-3) [![Maintainability](https://api.codeclimate.com/v1/badges/7b898310e8a3aac9455e/maintainability)](https://codeclimate.com/github/luc-tuyishime/EPIC-Mail-3/maintainability)
+[![Build Status](https://travis-ci.org/luc-tuyishime/EPIC-Mail-3.svg?branch=develop)](https://travis-ci.org/luc-tuyishime/EPIC-Mail-3)
+[![Coverage Status](https://coveralls.io/repos/github/luc-tuyishime/EPIC-Mail-3/badge.svg?branch=develop)](https://coveralls.io/github/luc-tuyishime/EPIC-Mail-3?branch=develop) [![Maintainability](https://api.codeclimate.com/v1/badges/7b898310e8a3aac9455e/maintainability)](https://codeclimate.com/github/luc-tuyishime/EPIC-Mail-3/maintainability)
+
 
 # EPIC-Mail-3
 
@@ -115,7 +117,7 @@ npm test
 | /api/v2/groups | POST | Create and own a Group |
 | /api/v2/groups | GET | Get all groups for a user |
 | /api/v2/groups/`<groupId>` | DELETE | Delete a group i own |
-| /api/v2/messages/groups/`<groupId>` | POST | Send email to a Group |
+| /api/v2/groups/`<groupId>/messages` | POST | Send email to a Group |
 | /api/v2/messages/groups/`<groupId>` | GET | Get emails for a specific Group |
 | /api/v2/groups/`<groupId>` | PATCH | Edit name of a specific Group |
 
