@@ -25,8 +25,8 @@ const Message = {
         const checkUser = await pool.query('SELECT * FROM users WHERE id = $1', [req.params.userId]);
 
         if (checkUser.rows.length <= 0) {
-          return res.status(200).json({
-            status: 200,
+          return res.status(404).json({
+            status: 404,
             error: 'Sorry, this user doesn\'t exist',
           });
         }
