@@ -22,22 +22,22 @@ describe('Homepage, user and required test to run others', () => {
   });
 
   describe('User', () => {
-    // it('it should register a new user', (done) => {
-    //   chai.request(server)
-    //     .post('/api/v2/users/register')
-    //     .send({
-    //       email: 'gizitewii@gmail.com',
-    //       firstname: 'trewer',
-    //       lastname: 'qwaszxdc',
-    //       password: 'tuyishime'
-    //     })
-    //     .end((err, res) => {
-    //       res.should.have.status(201);
-    //       res.body.should.be.a('object');
-    //       token = res.body.data[0].token;
-    //       done();
-    //     });
-    // });
+    it('it should register a new user', (done) => {
+      chai.request(server)
+        .post('/api/v2/users/register')
+        .send({
+          email: 'gizitewiiq@gmail.com',
+          firstname: 'trewer',
+          lastname: 'qwaszxdc',
+          password: 'tuyishime'
+        })
+        .end((err, res) => {
+          res.should.have.status(201);
+          res.body.should.be.a('object');
+          token = res.body.data[0].token;
+          done();
+        });
+    });
 
     it('it should not register a new user with empty field', (done) => {
       chai.request(server)
@@ -57,22 +57,22 @@ describe('Homepage, user and required test to run others', () => {
 
 
     describe('Login a user with data already in the database', () => {
-      // it('it should login the user', (done) => {
-      //   chai.request(server)
-      //     .post('/api/v2/users/login')
-      //     .send({
-      //       email: 'gizitewii@gmail.com',
-      //       password: 'tuyishime',
-      //     })
-      // 
-      //     .end((err, res) => {
-      //       console.log(res.body);
-      //       res.should.have.status(200);
-      //       res.body.should.be.a('object');
-      //       token = res.body.data[0].token;
-      //       done();
-      //     });
-      // });
+      it('it should login the user', (done) => {
+        chai.request(server)
+          .post('/api/v2/users/login')
+          .send({
+            email: 'gizitewii@gmail.com',
+            password: 'tuyishime',
+          })
+
+          .end((err, res) => {
+            console.log(res.body);
+            res.should.have.status(200);
+            res.body.should.be.a('object');
+            token = res.body.data[0].token;
+            done();
+          });
+      });
 
       it('it should not register a new user with existing email', (done) => {
         chai.request(server)
