@@ -184,6 +184,32 @@ const Message = {
       }
   },
 
+
+  // GET ALL MESSAGES
+  async getDraft(req, res) {
+    const findAllQuery = 'SELECT * FROM drafts WHERE senderId = $1';
+    try {
+      const { rows } = await pool.query(findAllQuery, [req.user.id]);
+      if (rows.length > 0) {
+        let messages = [];
+        rows.forEach(message => {
+          messages.push(message);
+        });
+        return res.status(200).json({
+          status: 200,
+          data: messages,
+        });
+      }
+      return res.json({
+        status: 204,
+        error: 'You have no drafts',
+      });
+    } catch(error) {
+      return res.status(400).send(error);
+    }
+  },
+
+
   // DELETE A DRAFT MESSAGE
   async deleteDraft(req, res) {
     const deleteQuery = 'DELETE FROM drafts WHERE id = $1 AND senderId = $2 RETURNING *';

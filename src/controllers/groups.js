@@ -109,7 +109,7 @@ const Group = {
  } catch (error) {
    return res.json({
      status: 204,
-     error: 'This user is not registered'
+     error: 'This user is not registered or group does not exist'
    });
    console.log(error);
     }

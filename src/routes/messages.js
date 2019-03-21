@@ -4,7 +4,7 @@ import Message from '../controllers/messages';
 
 import messageValidate from '../helpers/validations/message';
 
-const { update, create, getAll, sentMessage, createDraft, deleteDraft, getAllGroupMessages } = Message;
+const { update, create, getAll, sentMessage, createDraft, deleteDraft, getAllGroupMessages, getDraft } = Message;
 
 const { validate, validateDraft } = messageValidate;
 
@@ -15,6 +15,9 @@ messageRouter.route('/sent')
 
   messageRouter.route('/drafts')
     .post(validateDraft, createDraft);
+
+    messageRouter.route('/drafts')
+      .get(getDraft);
 
 messageRouter.route('/:id')
   .get(Message.getOne)
