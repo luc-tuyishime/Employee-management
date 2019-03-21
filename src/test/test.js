@@ -26,7 +26,7 @@ let token = '';
       chai.request(server)
         .post('/api/v2/users/register')
         .send({
-          email: 'angess@gmail.com',
+          email: 'eeeaq@gmail.com',
           firstname: 'trewer',
           lastname: 'qwaszxdc',
           password: 'tuyishime'
@@ -61,7 +61,7 @@ let token = '';
         chai.request(server)
           .post('/api/v2/users/login')
           .send({
-            email: 'angess@gmail.com',
+            email: 'eeeaq@gmail.com',
             password: 'tuyishime',
           })
 
@@ -78,7 +78,7 @@ let token = '';
         chai.request(server)
           .post('/api/v2/users/register')
           .send({
-            email: 'angess@gmail.com',
+            email: 'eeeaq@gmail.com',
             firstname: 'Niyongabo',
             lastname: 'Arsene',
             password: '1234'
@@ -96,7 +96,7 @@ let token = '';
     describe('Send a message to a user', () => {
       it('it should not send a message to a user that not exist', (done) => {
         chai.request(server)
-          .post('/api/v2/messages/140')
+          .post('/api/v2/messages')
           .set('x-access-token', token)
           .send({
             subject: 'bienvenue',
@@ -112,12 +112,12 @@ let token = '';
     });
 
     describe('GET messages for a user', () => {
-        it('it should not get messages for a user that doesn\t exist', (done) => {
+        it('it should get messages for a user that doesn\t exist', (done) => {
           chai.request(server)
             .get('/api/v2/messages')
             .set('x-access-token', token)
             .end((err, res) => {
-              res.should.have.status(204);
+              res.should.have.status(200);
               res.body.should.be.a('object');
               done();
             });
@@ -125,12 +125,12 @@ let token = '';
       });
 
       describe('GET a particular messages for a user', () => {
-          it('it should not get a particular messages for a user', (done) => {
+          it('it should  get a particular messages for a user', (done) => {
             chai.request(server)
-              .get('/api/v2/messages/1')
+              .get('/api/v2/messages/2')
               .set('x-access-token', token)
               .end((err, res) => {
-                res.should.have.status(204);
+                res.should.have.status(200);
                 res.body.should.be.a('object');
                 done();
               });
@@ -138,7 +138,23 @@ let token = '';
        });
 
        describe('CREATE draft', () => {
-         it('it should not create draft', (done) => {
+         it('it should  create draft', (done) => {
+           chai.request(server)
+             .post('/api/v2/messages/drafts')
+             .send({
+               subject: 'adsfsdfsadf',
+               message: 'viens ici on est a la maison',
+               status: 'draft'
+             })
+             .set('x-access-token', token)
+             .end((err, res) => {
+               res.should.have.status(201);
+               res.body.should.be.a('object');
+               done();
+             });
+         });
+
+         it('it should  create draft', (done) => {
            chai.request(server)
              .post('/api/v2/messages/drafts')
              .send({
@@ -156,36 +172,36 @@ let token = '';
       });
 
       describe('Delete a draft', () => {
-         it('it should not delete a specific draft with invalid parameter', (done) => {
+         it('it should delete a specific draft with invalid parameter', (done) => {
            chai.request(server)
              .delete('/api/v2/messages/drafts/89')
              .set('x-access-token', token)
              .end((err, res) => {
-               res.should.have.status(204);
+               res.should.have.status(200);
                res.body.should.be.a('object');
                done();
              });
          });
        });
      describe('Get a group for a user', () => {
-        it('it should not get a group for a user who did not create one', (done) => {
+        it('it should get a group for a user who did not create one', (done) => {
           chai.request(server)
             .get('/api/v2/groups')
             .set('x-access-token', token)
             .end((err, res) => {
-              res.should.have.status(204);
+              res.should.have.status(200);
               res.body.should.be.a('object');
               done();
             });
         });
       });
     describe('Delete a group', () => {
-       it('it should not delete a group that doesn\t exist', (done) => {
+       it('it should  delete a group that exist', (done) => {
          chai.request(server)
-           .delete('/api/v2/groups/4234')
+           .delete('/api/v2/groups/2')
            .set('x-access-token', token)
            .end((err, res) => {
-             res.should.have.status(204);
+             res.should.have.status(404);
              res.body.should.be.a('object');
              done();
            });
