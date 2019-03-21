@@ -57,7 +57,7 @@ const Group = {
           data: messages,
         });
       }
-      return res.status(204).json({
+      return res.json({
         status: 204,
         error: 'You have no groups, please create and own it',
       });
@@ -70,56 +70,59 @@ const Group = {
   // ADD GROUP MEMBER
   async addUserToGroup(req, res) {
 
-      const text = `INSERT INTO
-        groupMember(userId, userRole, groupId, owner_id)
-        VALUES($1, $2, $3, $4)
-        returning *`;
-      const values = [
-        req.body.userId,
-        req.body.userRole,
-        req.params.groupId,
-        req.user.id
-      ];
+  try {
+   const row = await pool.query('SELECT * FROM groups WHERE id = $1 AND ownerId = $2', [req.params.id, req.user.id]);
+   if (row.length === 0) {
+     return res.status(404).json({
+       status: 404,
+       message: 'invalid id'
+     });
+   }
+   const checkUserId = await pool.query('SELECT * FROM users WHERE id = $1', [req.body.userId]);
+   if (checkUserId === 0) {
+     return res.status(404).json({
+       status: 404,
+       message: 'the user you want to add is not our user.'
+     });
+   }
 
-    try {
+   const text = `INSERT INTO
+           groupMember(userId, userRole, groupId)
+           VALUES($1, $2, $3)
+           returning *`;
 
-        const checkGroup = await pool.query('SELECT * FROM groups WHERE id = $1', [req.params.groupId]);
+   const values = [
+     req.body.userId,
+     req.body.userRole,
+     req.params.groupId
+   ];
 
-        if (checkGroup.rows.length <= 0) {
-          return res.status(404).json({
-            status: 404,
-            error: 'Sorry, this group doesn\'t exist',
-          });
-        }
 
-        const {
-          rows
-        } = await pool.query(text, values);
+   const { rows } = await pool.query(text, values);
+   if (rows.length > 0) {
+     return res.status(201).json({
+       status: 201,
+       data: rows
+     });
+   }
 
-        if (rows.length > 0) {
-          return res.status(201).json({
-            status: 201,
-            data: rows[0],
-          });
-        }
-
-        return res.status(400).json({
-          status: 400,
-          error: 'user not added!',
-        });
-      } catch (error) {
-        console.log(error);
-      }
+ } catch (error) {
+   return res.json({
+     status: 204,
+     error: 'This user is not registered'
+   });
+   console.log(error);
+    }
   },
 
 
   // DELETE GROUP MEMBER
   async deleteGroupMember(req, res) {
-    const deleteQuery = 'DELETE FROM groupMember WHERE id = $1 AND owner_id = $2 RETURNING *';
+    const deleteQuery = 'DELETE FROM groupMember WHERE groupId = $1 AND userId = $2  RETURNING *';
     try {
        const {
          rows
-       } = await pool.query(deleteQuery, [req.params.id, req.user.id]);
+       } = await pool.query(deleteQuery, [req.params.groupId, req.params.userId]);
 
        if (rows.length > 0) {
          return res.json({
@@ -128,8 +131,8 @@ const Group = {
          });
        }
 
-       return res.status(204).json({
-         status: 204,
+       return res.status(404).json({
+         status: 404,
          error: 'user doesn\'t exist',
        });
      } catch (error) {
@@ -183,8 +186,8 @@ async createGroupMessage(req, res) {
       const checkUser = await pool.query('SELECT * FROM groups WHERE id = $1', [req.params.groupId]);
 
       if (checkUser.rows.length <= 0) {
-        return res.status(200).json({
-          status: 200,
+        return res.status(404).json({
+          status: 404,
           error: 'Sorry, this group doesn\'t exist',
         });
       }
@@ -224,8 +227,8 @@ async createGroupMessage(req, res) {
          });
        }
 
-       return res.status(204).json({
-         status: 204,
+       return res.status(404).json({
+         status: 404,
          error: 'group doesn\'t exist',
        });
      } catch (error) {

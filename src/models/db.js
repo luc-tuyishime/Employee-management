@@ -53,7 +53,6 @@ export const tablesCreate = () => {
            id SERIAL PRIMARY KEY,
            subject VARCHAR(1000) NOT NULL,
            message VARCHAR (1000) NOT NULL,
-           parentMessageId UUID NOT NULL,
            status VARCHAR (50)  NOT NULL,
            senderId SERIAL NOT NULL,
            createdOn TIMESTAMP,
@@ -63,14 +62,12 @@ export const tablesCreate = () => {
       const groupMember = `CREATE TABLE IF NOT EXISTS
       groupMember(
         id SERIAL PRIMARY KEY,
-        userId INT NOT NULL,
         userRole VARCHAR (50)  NOT NULL,
         groupId INT NOT NULL,
-        owner_id INT NOT NULL,
+        userId INT NOT NULL,
         FOREIGN KEY (groupId) REFERENCES groups(id) ON DELETE CASCADE,
-        FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE
+        FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE
       )`;
-
 
 
   const queries = `${users}; ${groups}; ${messages}; ${groupMessages}; ${drafts}; ${groupMember}`;

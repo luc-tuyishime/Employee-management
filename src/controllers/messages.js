@@ -66,7 +66,7 @@ const Message = {
           data: messages,
         });
       }
-      return res.status(204).json({
+      return res.json({
         status: 204,
         error: 'You have no messages',
       });
@@ -87,9 +87,9 @@ const Message = {
           data: rows[0],
         });
       }
-      return res.status(204).json({
+      return res.json({
         status: 204,
-        error: 'message not found...',
+        error: 'message not found...'
       });
     } catch (error) {
       console.log(error);
@@ -112,7 +112,7 @@ const Message = {
           data: messages,
         });
       }
-      return res.status(204).json({
+      return res.json({
         status: 204,
         error: 'No sent message',
       });
@@ -152,13 +152,12 @@ const Message = {
   async createDraft(req, res) {
 
       const text = `INSERT INTO
-        drafts(subject, message, parentMessageId, status, senderId, createdOn)
-        VALUES($1, $2, $3, $4, $5, $6)
+        drafts(subject, message, status, senderId, createdOn)
+        VALUES($1, $2, $3, $4, $5)
         returning *`;
       const values = [
         req.body.subject,
         req.body.message,
-        uuidv4(),
         req.body.status,
         req.user.id,
         moment().format('LL')
@@ -194,13 +193,13 @@ const Message = {
        } = await pool.query(deleteQuery, [req.params.id, req.user.id]);
 
        if (rows.length > 0) {
-         return res.json({
-           status: 204,
+         return res.status(200).json({
+           status: 200,
            message: 'message deleted !',
          });
        }
 
-       return res.status(204).json({
+       return res.json({
          status: 204,
          error: 'drafts doesn\'t exist',
        });
@@ -227,7 +226,7 @@ const Message = {
           data: messages,
         });
       }
-      return res.status(204).json({
+      return res.json({
         status: 204,
         error: 'Group not found...',
       });
