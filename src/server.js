@@ -1,4 +1,4 @@
-import '@babel/polyfill'
+import '@babel/polyfill';
 import express from 'express';
 import bodyParser from 'body-parser';
 import morgan from 'morgan';
@@ -7,13 +7,13 @@ import Router from './routes/index';
 
 const app = express();
 
-
-
 app.use(express.json());
 
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+app.use(
+  bodyParser.urlencoded({
+    extended: true
+  })
+);
 
 app.use(bodyParser.json());
 
@@ -23,7 +23,7 @@ if (app.get('env') === 'development') {
 }
 
 app.get('/', (req, res, next) => {
-  res.send({ 'message': 'Welcome to the EPIC Email..'});
+  res.send({ message: 'Welcome to the EPIC Email..' });
 });
 
 app.use('/api/v2', Router);
@@ -38,11 +38,12 @@ app.use((error, req, res, next) => {
   res.status(error.status || 400);
   res.json({
     status: '400',
-    error: error.message,
+    error: error.message
   });
 });
 
-
-app.listen(process.env.PORT || 8000, () => console.log('Server running on port 8000... '));
+app.listen(process.env.PORT || 8000, () =>
+  console.log('Server running on port 8000... ')
+);
 
 export default app;

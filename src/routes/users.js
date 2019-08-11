@@ -10,7 +10,6 @@ const { validate } = validateUser;
 
 const userRouter = express.Router();
 
-
 userRouter.post('/register', validate, create);
 
 userRouter.route('/login').post(login);
