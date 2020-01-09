@@ -1,18 +1,10 @@
-[![Build Status](https://travis-ci.org/luc-tuyishime/EPIC-Mail-3.svg?branch=develop)](https://travis-ci.org/luc-tuyishime/EPIC-Mail-3)
-[![Coverage Status](https://coveralls.io/repos/github/luc-tuyishime/EPIC-Mail-3/badge.svg?branch=develop)](https://coveralls.io/github/luc-tuyishime/EPIC-Mail-3?branch=develop) [![Maintainability](https://api.codeclimate.com/v1/badges/7b898310e8a3aac9455e/maintainability)](https://codeclimate.com/github/luc-tuyishime/EPIC-Mail-3/maintainability)
 
 
-# EPIC-Mail-3
 
-A web app that helps people exchange messages / information over the internet
+# Employee Management
 
-## User Interface (UI)
-* HTML
-* CSS
-* Javascript
+A web APIs that helps to manage employees 
 
-### Github Pages
-[EPIC EMAIL link](https://luc-tuyishime.github.io/EPIC-Email/ui/)
 
 ### Heroku API
 [EPIC Email link](https://epicmail3.herokuapp.com/)
@@ -25,15 +17,6 @@ A web app that helps people exchange messages / information over the internet
 
 [Express](http://expressjs.com/) : used for building fast APIs.
 
-[Mocha and Chai](https://www.youtube.com/watch?v=MLTRHc5dk6s) : Testing Framework.
-
-[Airbnb](https://github.com/airbnb/javascript) : Style Guide.
-
-[Travis](https://travis-ci.org/) : Continuous Integration.
-
-[nyc](https://github.com/istanbuljs/nyc) : Test coverage.
-
-[Coveralls](https://coveralls.io/) : Git badge.
 
 [Heroku](https://www.heroku.com/) : Deployment.
 
@@ -83,7 +66,7 @@ DATABASE_URL=postgres://[USERNAME]:[PASSWORD]@localhost/[DATABASE_NAME]
 * DATABASE_URL =
 * PG_HOST = localhost
 * PG_USER = username
-* PG_DATABASE = epicemail
+* PG_DATABASE = management
 * PG_PASSWORD = secretpassword
 * PG_PORT = 5432
 
