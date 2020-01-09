@@ -1,8 +1,8 @@
 import express from 'express';
 
-import Employee from '../controllers/employee';
+import Manager from '../controllers/manager';
 
-const { create, login } = Employee;
+const { create, login } = Manager;
 
 import checkIfRwandaNumber from '../middleware/checkIfRwandanNumber';
 import checkIdNumber from '../middleware/checkIdNumber';
