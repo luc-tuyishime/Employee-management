@@ -5,7 +5,7 @@ export const tablesCreate = () => {
   const employees = `CREATE TABLE IF NOT EXISTS
      employees(
        id SERIAL PRIMARY KEY,
-       name VARCHAR(40) NOT NULL,
+       name VARCHAR(80) NOT NULL,
        nationalId VARCHAR(80) NOT NULL,
        phone VARCHAR(60) NOT NULL,
        email VARCHAR(50) UNIQUE NOT NULL,

@@ -6,7 +6,7 @@ const validateUser = {
     const schema = Joi.object().keys({
       name: Joi.string().alphanum().min(3).max(30)
         .required(),
-      nationalId: Joi.number().required(),
+      nationalId: Joi.string().required(),
       phone: Joi.string().regex(/^\+\d{1,12}$/).required(),
       email: Joi.string().email({ minDomainAtoms: 2 }),
       birth: Joi.date().max('1-1-2004').iso(),
