@@ -13,7 +13,7 @@ const { validate } = validateUser;
 
 const employeeRouter = express.Router();
 
-employeeRouter.post('/employees', checkifNumber, checkIfNumberValid, createEmployee);
+employeeRouter.post('/employees', checkIfManager, checkifNumber, checkIfNumberValid, createEmployee);
 
 
 export default employeeRouter;

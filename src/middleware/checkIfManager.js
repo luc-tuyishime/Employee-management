@@ -1,10 +1,11 @@
 export default (req, res, next) => {
-    const id = req.user ? req.user.id : 0;
-
-    if (!id && req.body.position !== manager) {
-        return res.status(403).json({
-            message: 'Permission denied, you are not allowed to perform this action'
-        });
+    if (req.user.position === 'manager') {
+        next();
     }
-    return next();
+    else {
+        return res.status(403).send({
+            status: 403,
+            message: "You are not a Manager to perform this action"
+        })
+    }
 }
