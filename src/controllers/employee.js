@@ -3,9 +3,8 @@ import uuidv4 from 'uuid/v4';
 import pool from '../models/connect';
 import { Helper } from '../helpers/helpers';
 
-const User = {
+const Employee = {
   async create(req, res) {
-    console.log('sss');
     if (!Helper.isValidEmail(req.body.email)) {
       return res
         .status(400)
@@ -15,19 +14,25 @@ const User = {
     const hashPassword = Helper.hashPassword(req.body.password);
 
     const createQuery = `INSERT INTO
-      users(email, firstname, lastname, password)
-      VALUES($1, $2, $3, $4 )
+      employees(name, nationalId, phone, email, birth, status, position, password)
+      VALUES($1, $2, $3, $4, $5, $6, $7, $8)
       returning *`;
     const values = [
+      req.body.name,
+      req.body.nationalId,
+      req.body.phone,
       req.body.email,
-      req.body.firstname,
-      req.body.lastname,
+      req.body.birth,
+      req.body.status,
+      req.body.position,
       hashPassword
     ];
 
     try {
       const { rows } = await pool.query(createQuery, values);
+
       const token = Helper.generateToken(rows[0].id);
+
       return res.status(201).send({
         data: [
           {
@@ -48,6 +53,7 @@ const User = {
         status: 400,
         error
       });
+
     }
   },
 
@@ -95,4 +101,4 @@ const User = {
   }
 };
 
-export default User;
+export default Employee;

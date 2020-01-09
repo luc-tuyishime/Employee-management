@@ -23,7 +23,7 @@ if (app.get('env') === 'development') {
 }
 
 app.get('/', (req, res, next) => {
-  res.send({ message: 'Welcome to the EPIC Email..' });
+  res.send({ message: 'Welcome to Management REST API' });
 });
 
 app.use('/api/v2', Router);

@@ -1,8 +1,10 @@
 import express from 'express';
 
-import User from '../controllers/user';
+import Employee from '../controllers/employee';
 
-const { create, login, deleteUser } = User;
+const { create, login } = Employee;
+
+import checkIfRwandaNumber from '../middleware/checkIfRwandanNumber';
 
 import validateUser from '../helpers/validations/user';
 
@@ -10,7 +12,7 @@ const { validate } = validateUser;
 
 const userRouter = express.Router();
 
-userRouter.post('/register', validate, create);
+userRouter.post('/register', validate, checkIfRwandaNumber, create);
 
 userRouter.route('/login').post(login);
 
