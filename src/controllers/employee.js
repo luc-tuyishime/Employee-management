@@ -2,6 +2,7 @@ import moment from 'moment';
 import uuidv4 from 'uuid/v4';
 import pool from '../models/connect';
 import { Helper } from '../helpers/helpers';
+import * as helper from '../helpers';
 
 const Employee = {
 
@@ -26,13 +27,13 @@ const Employee = {
             req.user.id,
             moment().format('LL')
         ];
-
         try {
             const {
                 rows
             } = await pool.query(text, values);
 
             if (rows.length > 0) {
+                await helper.sendMail(req.body.email, 'newEmployee');
                 return res.status(201).json({
                     status: 201,
                     data: rows[0],

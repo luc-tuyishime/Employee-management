@@ -5,6 +5,7 @@ import Employee from '../controllers/employee';
 const { createEmployee } = Employee;
 
 import validateUser from '../helpers/validations/user';
+
 import { checkifNumber, checkIfNumberValid } from '../middleware/checkIdNumber';
 
 import checkIfManager from '../middleware/checkIfManager';

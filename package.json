@@ -30,6 +30,7 @@
     "@babel/register": "^7.0.0",
     "@babel/runtime": "^7.3.4",
     "@hapi/joi": "^17.0.0",
+    "@sendgrid/mail": "^6.4.0",
     "babel-plugin-transform-regenerator": "^6.26.0",
     "babel-register": "^6.26.0",
     "bcrypt": "^3.0.4",
