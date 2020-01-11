@@ -34,9 +34,6 @@ const Employee = {
                 rows
             } = await pool.query(text, values);
 
-            const getAge = Math.floor((new Date() - new Date(req.body.birth).getTime()) / 3.15576e+10);
-            console.log('here is the age', getAge);
-
             if (rows.length > 0) {
                 await helper.sendMail(req.body.email, 'newEmployee');
                 return res.status(201).json({
