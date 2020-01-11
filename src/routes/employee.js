@@ -2,7 +2,7 @@ import express from 'express';
 
 import Employee from '../controllers/employee';
 
-const { createEmployee, updateEmployee, deleteEmployee, activateEmployee } = Employee;
+const { createEmployee, updateEmployee, deleteEmployee, activateEmployee, suspendEmployee } = Employee;
 
 import validateUser from '../helpers/validations/user';
 
@@ -22,6 +22,7 @@ employeeRouter.post('/employees', checkIfManager, checkifNumber, checkIfNumberVa
 employeeRouter.patch('/employee/:id', checkIfManager, checkifNumber, checkIfRwandaNumber, checkIfNumberValid, checkEmployeeAge, updateEmployee);
 employeeRouter.delete('/employee/:id', deleteEmployee);
 employeeRouter.patch('/employees/:id/activate', activateEmployee);
+employeeRouter.patch('/employees/:id/suspend', suspendEmployee);
 
 
 export default employeeRouter;

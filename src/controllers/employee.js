@@ -6,7 +6,6 @@ import * as helper from '../helpers';
 
 import { checkNationalIDTwo, checkNumberTwo, checkEmail } from '../helpers/checkIfUnique';
 
-const status = 'active';
 
 const Employee = {
 
@@ -62,6 +61,7 @@ const Employee = {
 
     // UPDATE AN EMPLOYEE
     async activateEmployee(req, res) {
+        const status = 'active';
         const findOneQuery = 'SELECT * FROM employees WHERE id = $1 AND managerId = $2';
         const updateOneQuery = `UPDATE employees
        SET  status = $1, createdOn = $2
@@ -78,6 +78,36 @@ const Employee = {
                 req.user.id
             ];
             const response = await pool.query(updateOneQuery, values);
+            return res.status(200).send(response.rows[0]);
+        } catch (error) {
+            return res.status(500).send({
+                error: 'Employee account has not updated'
+            });
+        }
+    },
+
+    // SUSPEND AN EMPLOYEE
+    async suspendEmployee(req, res) {
+        const status = 'inactive';
+        const findOneQuery = 'SELECT * FROM employees WHERE id = $1 AND managerId = $2';
+        const updateOneQuery = `UPDATE employees
+       SET  status = $1, createdOn = $2
+       WHERE id = $3 AND managerId = $4 returning *`;
+        try {
+            const { rows } = await pool.query(findOneQuery, [req.params.id, req.user.id]);
+            if (!rows[0]) {
+                return res.status(404).send({ 'message': 'employee not found' });
+            }
+
+            const values = [
+                status,
+                moment().format('LL'),
+                req.params.id,
+                req.user.id
+            ];
+
+            const response = await pool.query(updateOneQuery, values);
+            console.log(response.rows[0].status);
             return res.status(200).send(response.rows[0]);
         } catch (error) {
             return res.status(500).send({
