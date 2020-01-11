@@ -3,6 +3,10 @@ import uuidv4 from 'uuid/v4';
 import pool from '../models/connect';
 import { Helper } from '../helpers/helpers';
 
+import { checkNationalID } from '../helpers/checkIfUnique';
+
+const position = 'manager';
+
 const Manager = {
   async create(req, res) {
     if (!Helper.isValidEmail(req.body.email)) {
@@ -24,12 +28,13 @@ const Manager = {
       req.body.email,
       req.body.birth,
       req.body.status,
-      req.body.position,
+      position,
       hashPassword
     ];
 
     try {
       const { rows } = await pool.query(createQuery, values);
+
 
       const token = Helper.generateToken(rows[0].id);
 
@@ -43,6 +48,14 @@ const Manager = {
         ]
       });
     } catch (error) {
+      console.log('here is the error ===>', error);
+      checkNationalID(error, res);
+      if (error.length === 214) {
+        return res.status(400).send({
+          status: 400,
+          message: 'User with that PHONE already exist'
+        });
+      }
       if (error.routine === '_bt_check_unique') {
         return res.status(400).send({
           status: 400,

@@ -6,8 +6,8 @@ export const tablesCreate = () => {
      managers(
        id SERIAL PRIMARY KEY,
        name VARCHAR(80) NOT NULL,
-       nationalId VARCHAR(80) NOT NULL,
-       phone VARCHAR(60) NOT NULL,
+       nationalId VARCHAR(80) UNIQUE NOT NULL,
+       phone VARCHAR(60) UNIQUE NOT NULL,
        email VARCHAR(50) UNIQUE NOT NULL,
        birth DATE,
        status VARCHAR(10) NOT NULL,
@@ -19,8 +19,8 @@ export const tablesCreate = () => {
       employees(
        id SERIAL PRIMARY KEY,
        name VARCHAR(80) NOT NULL,
-       nationalId VARCHAR(80) NOT NULL,
-       phone VARCHAR(60) NOT NULL,
+       nationalId VARCHAR(80) UNIQUE NOT NULL,
+       phone VARCHAR(60) UNIQUE NOT NULL,
        email VARCHAR(50) UNIQUE NOT NULL,
        birth DATE,
        status VARCHAR(10) NOT NULL,
