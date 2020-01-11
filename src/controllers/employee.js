@@ -3,6 +3,7 @@ import uuidv4 from 'uuid/v4';
 import pool from '../models/connect';
 import { Helper } from '../helpers/helpers';
 import * as helper from '../helpers';
+import { checkNationalIDTwo, checkNumberTwo, checkEmail } from '../helpers/checkIfUnique';
 
 const Employee = {
 
@@ -36,21 +37,18 @@ const Employee = {
                 await helper.sendMail(req.body.email, 'newEmployee');
                 return res.status(201).json({
                     status: 201,
-                    data: rows[0],
+                    data: rows[0]
                 });
             }
 
             return res.status(400).json({
                 status: 400,
-                error: 'employee not created!',
+                error: 'employee not created!'
             });
         } catch (error) {
-            if (error.routine === '_bt_check_unique') {
-                return res.status(400).send({
-                    status: 400,
-                    message: 'User with that EMAIL already exist'
-                });
-            }
+            checkNationalIDTwo(error, res);
+            checkNumberTwo(error, res);
+            checkEmail(error, res);
             return res.status(400).send({
                 status: 400,
                 error
