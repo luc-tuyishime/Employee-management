@@ -20,14 +20,3 @@ export const checkIfNumberValid = (req, res, next) => {
         })
     }
 }
-
-// export const checkIfExist = (req, res, next) => {
-//     if (req.body.nationalId !== '_bt_check_unique') {
-//         next();
-//     } else {
-//         return res.status(400).send({
-//             status: 400,
-//             message: "voilaaaaaaaaaaaaaa"
-//         })
-//     }
-// }
