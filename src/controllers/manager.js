@@ -3,7 +3,7 @@ import uuidv4 from 'uuid/v4';
 import pool from '../models/connect';
 import { Helper } from '../helpers/helpers';
 
-import { checkNationalID } from '../helpers/checkIfUnique';
+import { checkNationalID, checkNumber, checkEmail } from '../helpers/checkIfUnique';
 
 const position = 'manager';
 
@@ -48,20 +48,9 @@ const Manager = {
         ]
       });
     } catch (error) {
-      console.log('here is the error ===>', error);
       checkNationalID(error, res);
-      if (error.length === 214) {
-        return res.status(400).send({
-          status: 400,
-          message: 'User with that PHONE already exist'
-        });
-      }
-      if (error.routine === '_bt_check_unique') {
-        return res.status(400).send({
-          status: 400,
-          message: 'User with that EMAIL already exist'
-        });
-      }
+      checkNumber(error, res);
+      checkEmail(error, res);
       return res.status(400).send({
         status: 400,
         error
