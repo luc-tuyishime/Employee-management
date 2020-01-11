@@ -3,6 +3,7 @@ import uuidv4 from 'uuid/v4';
 import pool from '../models/connect';
 import { Helper } from '../helpers/helpers';
 import * as helper from '../helpers';
+
 import { checkNationalIDTwo, checkNumberTwo, checkEmail } from '../helpers/checkIfUnique';
 
 const Employee = {
@@ -32,6 +33,9 @@ const Employee = {
             const {
                 rows
             } = await pool.query(text, values);
+
+            const getAge = Math.floor((new Date() - new Date(req.body.birth).getTime()) / 3.15576e+10);
+            console.log('here is the age', getAge);
 
             if (rows.length > 0) {
                 await helper.sendMail(req.body.email, 'newEmployee');
