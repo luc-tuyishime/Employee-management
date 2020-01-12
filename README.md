@@ -91,7 +91,7 @@ npm test
 | / | GET | The index (welcome message) |
 | /api/v2/employees | POST | Create an employee |
 | /api/v2/users/register | POST | Register a manager |
-| /api/v2/users/register` | POST | Login a manager |
+| /api/v2/users/register | POST | Login a manager |
 | api/v2/employee/:id | PATCH | Edit en employee |
 | api/v2/employee/:id | DELETE | Delete an employee |
 | api/v2/employees/:id/activate | PATCH | Activate an employee |
