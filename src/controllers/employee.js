@@ -60,7 +60,7 @@ const Employee = {
     },
 
 
-    // UPDATE AN EMPLOYEE
+    // ACTIVATE AN EMPLOYEE
     async activateEmployee(req, res) {
         const status = 'active';
         const findOneQuery = 'SELECT * FROM employees WHERE id = $1 AND managerId = $2';
@@ -108,7 +108,6 @@ const Employee = {
             ];
 
             const response = await pool.query(updateOneQuery, values);
-            console.log(response.rows[0].status);
             return res.status(200).send(response.rows[0]);
         } catch (error) {
             return res.status(500).send({
@@ -118,7 +117,7 @@ const Employee = {
     },
 
 
-    // ACTIVATE AN EMPLOYEE
+    // UPDATE AN EMPLOYEE
     async updateEmployee(req, res) {
         const findOneQuery = 'SELECT * FROM employees WHERE id = $1 AND managerId = $2';
         const updateOneQuery = `UPDATE employees
@@ -208,7 +207,6 @@ const Employee = {
     // SEARCH AN EMPLOYEES
     async searchEmployee(req, res) {
         var response = [];
-        console.log('here is the query ==>>', req.query)
         const findAllQuery = 'SELECT * FROM employees WHERE managerId = $1';
         try {
             const { rows } = await pool.query(findAllQuery, [req.user.id]);
