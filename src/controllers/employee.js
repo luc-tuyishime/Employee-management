@@ -1,5 +1,6 @@
 import moment from 'moment';
 import uuidv4 from 'uuid/v4';
+import _ from 'lodash';
 import pool from '../models/connect';
 import { Helper } from '../helpers/helpers';
 import * as helper from '../helpers';
@@ -144,8 +145,9 @@ const Employee = {
             const response = await pool.query(updateOneQuery, values);
             return res.status(200).send(response.rows[0]);
         } catch (err) {
-            // return res.status(400).send(err);
-            console.log(err);
+            return res.status(500).send({
+                error: 'Employee account has not updated'
+            });
         }
     },
 
@@ -170,8 +172,73 @@ const Employee = {
                 error: 'employee doesn\'t exist',
             });
         } catch (error) {
-            console.log(error)
+            return res.status(500).send({
+                error: 'Employee not deleted'
+            });
         }
+    },
+
+    // GET ALL EMPLOYEES
+    async getAllEmployees(req, res) {
+        const findAllQuery = 'SELECT * FROM employees WHERE managerId = $1';
+        try {
+            const { rows } = await pool.query(findAllQuery, [req.user.id]);
+            if (rows.length > 0) {
+                let employees = [];
+                rows.forEach(employee => {
+                    employees.push(employee);
+                });
+
+                return res.status(200).json({
+                    status: 200,
+                    data: employees,
+                });
+            }
+            return res.json({
+                status: 204,
+                error: 'No employees created, please create..',
+            });
+        } catch (error) {
+            return res.status(500).send({
+                error: 'Something went wrong..'
+            });
+        }
+    },
+
+    // SEARCH AN EMPLOYEES
+    async searchEmployee(req, res) {
+        var response = [];
+        console.log('here is the query ==>>', req.query)
+        const findAllQuery = 'SELECT * FROM employees WHERE managerId = $1';
+        try {
+            const { rows } = await pool.query(findAllQuery, [req.user.id]);
+
+
+            if (typeof req.query.name != 'undefined') {
+                rows.filter((employee) => {
+                    if (employee.name === req.query.name) {
+                        response.push(employee);
+                    }
+                });
+
+
+            } else {
+                response = rows.filter(function (employee) {
+                    return Object.keys(this).every((key) => employee[key] === this[key])
+                }, req.query);
+            }
+
+            return res.status(200).json({
+                status: 200,
+                data: response,
+            });
+
+        } catch (error) {
+            return res.status(500).send({
+                error: 'Something went wrong...'
+            });
+        }
+
     }
 }
 
