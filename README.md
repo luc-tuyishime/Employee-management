@@ -38,8 +38,7 @@ Install Postgres
 Clone the repo by running
 
 ```
-git clone https://github.com/luc-tuyishime/EPIC-Mail-3.git
-cd EPIC-Mail-3
+git clone https://github.com/luc-tuyishime/Employee-management.git
 ```
 
 Then install all the necessary dependencies
