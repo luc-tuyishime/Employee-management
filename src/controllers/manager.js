@@ -34,8 +34,6 @@ const Manager = {
 
     try {
       const { rows } = await pool.query(createQuery, values);
-
-
       const token = Helper.generateToken(rows[0].id);
 
       return res.status(201).send({
@@ -43,7 +41,7 @@ const Manager = {
           {
             status: 201,
             token,
-            user: values
+            user: rows
           }
         ]
       });
