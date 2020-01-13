@@ -3,11 +3,11 @@
 
 # Employee Management
 
-A web APIs that helps to manage employees 
+A web APIs that helps to manage employees.
 
 
 ### Heroku API
-[EPIC Email link](https://epicmail3.herokuapp.com/)
+[Employee Management link](https://employee-management01.herokuapp.com/)
 
 ## Tools Used
 
@@ -38,8 +38,7 @@ Install Postgres
 Clone the repo by running
 
 ```
-git clone https://github.com/luc-tuyishime/EPIC-Mail-3.git
-cd EPIC-Mail-3
+git clone https://github.com/luc-tuyishime/Employee-management.git
 ```
 
 Then install all the necessary dependencies
@@ -89,20 +88,15 @@ npm test
 | Ressource URL | Methods  | Description  |
 | ------- | --- | --- |
 | / | GET | The index (welcome message) |
-| /api/v2/users/register | POST | Register a new User |
-| /api/v2/users/login | POST | Login registered User |
-| /api/v2/messages/`userId` | POST | Send messages to a User |
-| /api/v2/messages | GET | GET all messages for a User |
-| /api/v2/messages/`<messageId>` | GET | Get a specific message for a User |
-| /api/v2/messages/sent | GET | GET all sent email for user |
-| /api/v2/messages/drafts | POST | Save a draft email |
-| /api/v2/messages/drafts/`<messageId>` | DELETE | Delete a draft email |
-| /api/v2/groups | POST | Create and own a Group |
-| /api/v2/groups | GET | Get all groups for a user |
-| /api/v2/groups/`<groupId>` | DELETE | Delete a group i own |
-| /api/v2/groups/`<groupId>/messages` | POST | Send email to a Group |
-| /api/v2/messages/groups/`<groupId>` | GET | Get emails for a specific Group |
-| /api/v2/groups/`<groupId>` | PATCH | Edit name of a specific Group |
+| /api/v2/employees | POST | Create an employee |
+| /api/v2/users/register | POST | Register a manager |
+| /api/v2/users/register | POST | Login a manager |
+| api/v2/employee/:id | PATCH | Edit en employee |
+| api/v2/employee/:id | DELETE | Delete an employee |
+| api/v2/employees/:id/activate | PATCH | Activate an employee |
+| api/v2/employees/:id/suspend | PATCH | Suspend an employee |
+| api/v2/employees | GET | Get all employees |
+| api/v2/employees/search?name=frank | GET | Search employee with Name |
 
 
 ## Contributor
