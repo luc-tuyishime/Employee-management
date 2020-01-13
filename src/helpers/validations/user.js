@@ -13,8 +13,6 @@ const validateUser = {
       status: Joi.string().alphanum().min(6)
         .max(8)
         .required(),
-      position: Joi.string().alphanum().min(7)
-        .max(10),
       password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required(),
     });
     const { value, error } = Joi.validate(req.body, schema);
